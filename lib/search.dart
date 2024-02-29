@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tablebooking_flutter/gmap.dart';
-import 'package:tablebooking_flutter/restaurant_card.dart';
+import 'package:tablebooking_flutter/restaurant_list.dart';
+import 'package:tablebooking_flutter/restaurant_map.dart';
 import 'package:tablebooking_flutter/tune.dart';
 
 class Search extends StatefulWidget {
@@ -57,23 +57,8 @@ class _SearchState extends State<Search> {
           ),
           body: TabBarView(
             children: <Widget>[
-              Container(
-                  margin: const EdgeInsets.all(10),
-                  child: ListView.builder(
-                    itemCount: restaurants.length,
-                    itemBuilder: (context, index) {
-                      return RestaurantCard(
-                        imageUrl: 'https://picsum.photos/seed/{$index+1}/200',
-                        title: restaurants[index],
-                        rating: 4,
-                        openingHours: '10:00',
-                        closingHours: '22:00',
-                        type: 'Fast Food',
-                        description: 'This is a description',
-                      );
-                    },
-                  )),
-              GMap(),
+              RestaurantList(restaurants: restaurants),
+              RestaurantMap(),
             ],
           ),
         ));

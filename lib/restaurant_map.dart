@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 
-class GMap extends StatefulWidget {
+class RestaurantMap extends StatefulWidget {
   @override
-  _GMapState createState() => _GMapState();
+  _RestaurantMapState createState() => _RestaurantMapState();
 }
 
-class _GMapState extends State<GMap> {
+class _RestaurantMapState extends State<RestaurantMap> {
   late GoogleMapController mapController;
   late Position currentPosition = Position(
     timestamp: DateTime.now(),
