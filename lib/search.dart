@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tablebooking_flutter/restaurant_card.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -120,17 +121,22 @@ class _SearchState extends State<Search> {
           ),
           body: TabBarView(
             children: <Widget>[
-              ListView.builder(
-                itemCount: restaurants.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      leading: const Icon(Icons.restaurant),
-                      title: Text(restaurants[index]),
-                    ),
-                  );
-                },
-              ),
+              Container(
+                  margin: const EdgeInsets.all(10),
+                  child: ListView.builder(
+                    itemCount: restaurants.length,
+                    itemBuilder: (context, index) {
+                      return RestaurantCard(
+                        imageUrl: 'https://picsum.photos/seed/{$index+1}/200',
+                        title: restaurants[index],
+                        rating: 4,
+                        openingHours: '10:00',
+                        closingHours: '22:00',
+                        type: 'Fast Food',
+                        description: 'This is a description',
+                      );
+                    },
+                  )),
               const Center(
                   child: Text('Map View')), // Replace this with your Map widget
             ],
