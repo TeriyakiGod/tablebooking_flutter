@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tablebooking_flutter/search/list/rating.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
+import 'package:share_plus/share_plus.dart';
 
 class RestaurantCard extends StatelessWidget {
   final Restaurant restaurant;
@@ -27,7 +28,8 @@ class RestaurantCard extends StatelessWidget {
             ),
           ),
           Container(
-              padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+              padding: const EdgeInsets.only(
+                  left: 10, right: 10, top: 10, bottom: 10),
               child: Column(children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,15 +65,16 @@ class RestaurantCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const Row(
+                      Row(
                         children: [
                           IconButton(
-                              icon: Icon(Icons.favorite),
-                              onPressed: null,
-                              color: Colors.red),
+                              icon: const Icon(Icons.favorite),
+                              onPressed: () => print("Favorite")),
                           IconButton(
-                              onPressed: null,
-                              icon: Icon(
+                              onPressed: () {
+                                Share.share("https://google.com");
+                              },
+                              icon: const Icon(
                                 Icons.share,
                               ))
                         ],
