@@ -23,8 +23,7 @@ class _NavigationState extends State<Navigation> {
         selectedIndex: currentPageIndex,
         destinations: const <Widget>[
           NavigationDestination(
-            selectedIcon: Icon(Icons.search),
-            icon: Icon(Icons.home_outlined),
+            icon: Icon(Icons.search),
             label: 'Search',
           ),
           NavigationDestination(

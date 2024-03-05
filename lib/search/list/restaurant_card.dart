@@ -5,10 +5,8 @@ import 'package:share_plus/share_plus.dart';
 
 class RestaurantCard extends StatelessWidget {
   final Restaurant restaurant;
-  final bool fullscreen;
 
-  const RestaurantCard(
-      {super.key, required this.restaurant, required this.fullscreen});
+  const RestaurantCard({super.key, required this.restaurant});
 
   @override
   Widget build(BuildContext context) {
@@ -81,36 +79,6 @@ class RestaurantCard extends StatelessWidget {
                       )
                     ])
               ])),
-          if (fullscreen)
-            const SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Wrap(
-                spacing: 8.0,
-                children: [
-                  Chip(
-                      label: Text("Call restaurant"),
-                      avatar: Icon(Icons.phone)),
-                  Chip(label: Text("View menu"), avatar: Icon(Icons.menu)),
-                  Chip(label: Text("Show on map"), avatar: Icon(Icons.map)),
-                ],
-              ),
-            ),
-          if (fullscreen) const Divider(),
-          if (fullscreen)
-            Expanded(
-                child: Container(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                padding: const EdgeInsets.only(left: 10, right: 10, bottom: 50),
-                child: Text(
-                  restaurant.description,
-                  style: const TextStyle(fontSize: 16),
-                  textAlign: TextAlign.justify,
-                ),
-              ),
-            ))
         ],
       ),
     );

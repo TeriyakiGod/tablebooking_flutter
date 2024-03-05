@@ -25,10 +25,7 @@ class RestaurantList extends StatelessWidget {
                 ),
               );
             },
-            child: RestaurantCard(
-              restaurant: restaurants[index],
-              fullscreen: false,
-            ),
+            child: RestaurantCard(restaurant: restaurants[index]),
           );
         },
       ),
