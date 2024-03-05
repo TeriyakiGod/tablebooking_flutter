@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-enum PriceRange { $, $$, $$$ }
+import 'package:tablebooking_flutter/models/price.dart';
 
 class Pricing extends StatefulWidget {
   const Pricing({super.key});
@@ -10,22 +9,18 @@ class Pricing extends StatefulWidget {
 }
 
 class _PricingState extends State<Pricing> {
-  Set<PriceRange> selection = <PriceRange>{
-    PriceRange.$,
-    PriceRange.$$,
-    PriceRange.$$$
-  };
+  Set<Price> selection = <Price>{Price.low, Price.medium, Price.high};
 
   @override
   Widget build(BuildContext context) {
-    return SegmentedButton<PriceRange>(
-      segments: const <ButtonSegment<PriceRange>>[
-        ButtonSegment<PriceRange>(value: PriceRange.$, label: Text('\$')),
-        ButtonSegment<PriceRange>(value: PriceRange.$$, label: Text('\$\$')),
-        ButtonSegment<PriceRange>(value: PriceRange.$$$, label: Text('\$\$\$')),
+    return SegmentedButton<Price>(
+      segments: const <ButtonSegment<Price>>[
+        ButtonSegment<Price>(value: Price.low, label: Text('\$')),
+        ButtonSegment<Price>(value: Price.medium, label: Text('\$\$')),
+        ButtonSegment<Price>(value: Price.high, label: Text('\$\$\$')),
       ],
       selected: selection,
-      onSelectionChanged: (Set<PriceRange> newSelection) {
+      onSelectionChanged: (Set<Price> newSelection) {
         setState(() {
           selection = newSelection;
         });

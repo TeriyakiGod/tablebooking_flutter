@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-enum SortingMethod { trending, rating, distance }
+import 'package:tablebooking_flutter/models/sorting_method.dart';
 
 class Sort extends StatefulWidget {
   const Sort({super.key});
