@@ -4,8 +4,10 @@ import 'package:tablebooking_flutter/models/restaurant.dart';
 
 class RestaurantCard extends StatelessWidget {
   final Restaurant restaurant;
+  final bool fullscreen;
 
-  const RestaurantCard({super.key, required this.restaurant});
+  const RestaurantCard(
+      {super.key, required this.restaurant, required this.fullscreen});
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +27,8 @@ class RestaurantCard extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              children: [
+              padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+              child: Column(children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -76,9 +77,37 @@ class RestaurantCard extends StatelessWidget {
                         ],
                       )
                     ])
-              ],
+              ])),
+          if (fullscreen)
+            const SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Wrap(
+                spacing: 8.0,
+                children: [
+                  Chip(
+                      label: Text("Call restaurant"),
+                      avatar: Icon(Icons.phone)),
+                  Chip(label: Text("View menu"), avatar: Icon(Icons.menu)),
+                  Chip(label: Text("Show on map"), avatar: Icon(Icons.map)),
+                ],
+              ),
             ),
-          )
+          if (fullscreen) const Divider(),
+          if (fullscreen)
+            Expanded(
+                child: Container(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                padding: const EdgeInsets.only(left: 10, right: 10, bottom: 50),
+                child: Text(
+                  restaurant.description,
+                  style: const TextStyle(fontSize: 16),
+                  textAlign: TextAlign.justify,
+                ),
+              ),
+            ))
         ],
       ),
     );

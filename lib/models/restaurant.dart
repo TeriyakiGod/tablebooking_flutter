@@ -49,9 +49,10 @@ class Restaurant {
     return Restaurant(
       name: 'Restaurant Name',
       type: 'Restaurant Type',
-      description: 'Restaurant Description',
+      description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia eu arcu vitae malesuada. Pellentesque sed velit auctor, egestas nisi quis, tincidunt odio. Aenean nec neque mi. Fusce malesuada erat ac est placerat gravida. Vestibulum vel massa maximus, tincidunt mi a, luctus massa. Fusce at velit eu nulla pharetra imperdiet. Aenean finibus tellus sed posuere varius. Mauris imperdiet nibh purus, sed aliquet erat pharetra sed. Mauris sit amet elit efficitur, tincidunt odio vitae, hendrerit sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia eu arcu vitae malesuada. Pellentesque sed velit auctor, egestas nisi quis, tincidunt odio. Aenean nec neque mi. Fusce malesuada erat ac est placerat gravida. Vestibulum vel massa maximus, tincidunt mi a, luctus massa. Fusce at velit eu nulla pharetra imperdiet. Aenean finibus tellus sed posuere varius. Mauris imperdiet nibh purus, sed aliquet erat pharetra sed. Mauris sit amet elit efficitur, tincidunt odio vitae, hendrerit sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia eu arcu vitae malesuada. Pellentesque sed velit auctor, egestas nisi quis, tincidunt odio. Aenean nec neque mi. Fusce malesuada erat ac est placerat gravida. Vestibulum vel massa maximus, tincidunt mi a, luctus massa. Fusce at velit eu nulla pharetra imperdiet. Aenean finibus tellus sed posuere varius. Mauris imperdiet nibh purus, sed aliquet erat pharetra sed. Mauris sit amet elit efficitur, tincidunt odio vitae, hendrerit sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia eu arcu vitae malesuada. Pellentesque sed velit auctor, egestas nisi quis, tincidunt odio. Aenean nec neque mi. Fusce malesuada erat ac est placerat gravida. Vestibulum vel massa maximus, tincidunt mi a, luctus massa. Fusce at velit eu nulla pharetra imperdiet. Aenean finibus tellus sed posuere varius. Mauris imperdiet nibh purus, sed aliquet erat pharetra sed. Mauris sit amet elit efficitur, tincidunt odio vitae, hendrerit sapien.',
       location: 'Restaurant Location',
-      phone: 'Restaurant Phone',
+      phone: '+48 128732123',
       primaryImageURL: 'https://picsum.photos/seed/$random/200/300',
       secondaryImageURL: 'https://picsum.photos/$random/200/300',
       rating: 3.5,
