@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tablebooking_flutter/rating.dart';
+import 'package:tablebooking_flutter/search/tuning/rating.dart';
 
 class RestaurantCard extends StatelessWidget {
   final String imageUrl;

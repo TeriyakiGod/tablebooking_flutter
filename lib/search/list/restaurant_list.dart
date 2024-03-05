@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tablebooking_flutter/restaurant_card.dart';
+import 'package:tablebooking_flutter/search/list/restaurant_card.dart';
 
 class RestaurantList extends StatelessWidget {
   final List<String> restaurants;

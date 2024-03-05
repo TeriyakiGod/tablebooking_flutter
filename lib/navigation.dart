@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tablebooking_flutter/search.dart';
+import 'package:tablebooking_flutter/search/search.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({super.key});

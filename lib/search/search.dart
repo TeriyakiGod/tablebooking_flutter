@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tablebooking_flutter/restaurant_list.dart';
-import 'package:tablebooking_flutter/restaurant_map.dart';
-import 'package:tablebooking_flutter/tune.dart';
+import 'package:tablebooking_flutter/search/list/restaurant_list.dart';
+import 'package:tablebooking_flutter/search/map/restaurant_map.dart';
+import 'package:tablebooking_flutter/search/tuning/tune.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});

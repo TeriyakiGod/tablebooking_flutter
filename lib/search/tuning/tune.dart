@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tablebooking_flutter/sort.dart';
-import 'package:tablebooking_flutter/pricing.dart';
-import 'package:tablebooking_flutter/distance.dart';
+import 'package:tablebooking_flutter/search/tuning/sort.dart';
+import 'package:tablebooking_flutter/search/tuning/pricing.dart';
+import 'package:tablebooking_flutter/search/tuning/distance.dart';
 
 class Tune extends StatelessWidget {
   const Tune({super.key});
