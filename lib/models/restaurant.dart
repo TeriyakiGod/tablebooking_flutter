@@ -1,12 +1,18 @@
 import 'dart:math';
-
 import 'package:tablebooking_flutter/models/price.dart';
+
+class Location {
+  final double longitiude;
+  final double latitude;
+
+  Location({required this.longitiude, required this.latitude});
+}
 
 class Restaurant {
   final String name;
   final String type;
   final String description;
-  final String location;
+  final Location location;
   final String phone;
   final String primaryImageURL;
   final String secondaryImageURL;
@@ -45,13 +51,14 @@ class Restaurant {
     );
   }
   static Restaurant example() {
-    var random = Random().nextInt(1000);
+    var random = Random().nextDouble();
     return Restaurant(
       name: 'Restaurant Name',
       type: 'Restaurant Type',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia eu arcu vitae malesuada. Pellentesque sed velit auctor, egestas nisi quis, tincidunt odio. Aenean nec neque mi. Fusce malesuada erat ac est placerat gravida. Vestibulum vel massa maximus, tincidunt mi a, luctus massa. Fusce at velit eu nulla pharetra imperdiet. Aenean finibus tellus sed posuere varius. Mauris imperdiet nibh purus, sed aliquet erat pharetra sed. Mauris sit amet elit efficitur, tincidunt odio vitae, hendrerit sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia eu arcu vitae malesuada. Pellentesque sed velit auctor, egestas nisi quis, tincidunt odio. Aenean nec neque mi. Fusce malesuada erat ac est placerat gravida. Vestibulum vel massa maximus, tincidunt mi a, luctus massa. Fusce at velit eu nulla pharetra imperdiet. Aenean finibus tellus sed posuere varius. Mauris imperdiet nibh purus, sed aliquet erat pharetra sed. Mauris sit amet elit efficitur, tincidunt odio vitae, hendrerit sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia eu arcu vitae malesuada. Pellentesque sed velit auctor, egestas nisi quis, tincidunt odio. Aenean nec neque mi. Fusce malesuada erat ac est placerat gravida. Vestibulum vel massa maximus, tincidunt mi a, luctus massa. Fusce at velit eu nulla pharetra imperdiet. Aenean finibus tellus sed posuere varius. Mauris imperdiet nibh purus, sed aliquet erat pharetra sed. Mauris sit amet elit efficitur, tincidunt odio vitae, hendrerit sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia eu arcu vitae malesuada. Pellentesque sed velit auctor, egestas nisi quis, tincidunt odio. Aenean nec neque mi. Fusce malesuada erat ac est placerat gravida. Vestibulum vel massa maximus, tincidunt mi a, luctus massa. Fusce at velit eu nulla pharetra imperdiet. Aenean finibus tellus sed posuere varius. Mauris imperdiet nibh purus, sed aliquet erat pharetra sed. Mauris sit amet elit efficitur, tincidunt odio vitae, hendrerit sapien.',
-      location: 'Restaurant Location',
+      location: Location(
+          latitude: 54.1944 + random / 20, longitiude: 16.1722 + random / 20),
       phone: '+48 128732123',
       primaryImageURL: 'https://picsum.photos/seed/$random/200/300',
       secondaryImageURL: 'https://picsum.photos/$random/200/300',

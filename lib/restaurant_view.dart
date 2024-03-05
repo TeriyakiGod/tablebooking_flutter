@@ -7,19 +7,19 @@ import 'package:share_plus/share_plus.dart';
 
 class RestaurantView extends StatefulWidget {
   final String? restaurantId;
-  RestaurantView({Key? key, required this.restaurantId}) : super(key: key);
+  const RestaurantView({super.key, required this.restaurantId});
 
   @override
   _RestaurantViewState createState() => _RestaurantViewState();
 }
 
 class _RestaurantViewState extends State<RestaurantView> {
-  late Future<Restaurant> futureRestaurant;
+  late Future<Restaurant> restaurant;
 
   @override
   void initState() {
     super.initState();
-    futureRestaurant = fetchRestaurant();
+    restaurant = fetchRestaurant();
   }
 
   Future<Restaurant> fetchRestaurant() async {
@@ -39,7 +39,7 @@ class _RestaurantViewState extends State<RestaurantView> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Restaurant>(
-      future: futureRestaurant,
+      future: restaurant,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Scaffold(

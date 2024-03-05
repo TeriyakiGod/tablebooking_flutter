@@ -12,7 +12,27 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  List<Restaurant> restaurants = Restaurant.exampleList();
+  late Future<List<Restaurant>> restaurants;
+
+  @override
+  void initState() {
+    super.initState();
+    restaurants = fetchRestaurant();
+  }
+
+  Future<List<Restaurant>> fetchRestaurant() async {
+    // final response = await http.get(
+    //     Uri.parse('http://mybackend.com/restaurants'));
+
+    // if (response.statusCode == 200) {
+    //   // If the server returns a 200 OK response, then parse the JSON.
+    //   return Restaurant.fromJson(jsonDecode(response.body));
+    // } else {
+    //   // If the server did not return a 200 OK response, then throw an exception.
+    //   throw Exception('Failed to load restaurant');
+    // }
+    return Restaurant.exampleList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +78,30 @@ class _SearchState extends State<Search> {
           ),
           body: TabBarView(
             children: <Widget>[
-              RestaurantList(restaurants: restaurants),
-              const RestaurantMap(),
+              FutureBuilder<List<Restaurant>>(
+                future: restaurants,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    return RestaurantList(restaurants: snapshot.data ?? []);
+                  }
+                },
+              ),
+              FutureBuilder<List<Restaurant>>(
+                future: restaurants,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    return RestaurantMap(restaurants: snapshot.data ?? []);
+                  }
+                },
+              ),
             ],
           ),
         ));

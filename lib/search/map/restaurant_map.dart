@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:tablebooking_flutter/models/restaurant.dart';
+import 'package:tablebooking_flutter/restaurant_view.dart';
 
 class RestaurantMap extends StatefulWidget {
-  const RestaurantMap({super.key});
+  final List<Restaurant> restaurants;
+  const RestaurantMap({super.key, required this.restaurants});
 
   @override
   _RestaurantMapState createState() => _RestaurantMapState();
@@ -28,18 +31,29 @@ class _RestaurantMapState extends State<RestaurantMap> {
   @override
   void initState() {
     super.initState();
-    _getUserLocation();
+    _addRestaurantMarkers();
   }
 
-  void _getUserLocation() async {
-    currentPosition = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    setState(() {
+  void _addRestaurantMarkers() {
+    for (var restaurant in widget.restaurants) {
       markers.add(Marker(
-        markerId: const MarkerId('currentLocation'),
-        position: LatLng(currentPosition.latitude, currentPosition.longitude),
+        markerId: MarkerId(restaurant.name),
+        position: LatLng(
+            restaurant.location.latitude, restaurant.location.longitiude),
+        infoWindow: InfoWindow(
+            title: restaurant.name,
+            snippet: restaurant.type,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      RestaurantView(restaurantId: restaurant.name),
+                ),
+              );
+            }),
       ));
-    });
+    }
   }
 
   void _onMapCreated(GoogleMapController controller) {
