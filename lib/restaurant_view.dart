@@ -124,19 +124,17 @@ class _RestaurantViewState extends State<RestaurantView> {
                 ),
                 const Divider(),
                 Expanded(
-                    child: Container(
-                  padding: const EdgeInsets.only(bottom: 10),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     padding:
-                        const EdgeInsets.only(left: 10, right: 10, bottom: 50),
+                        const EdgeInsets.only(left: 10, right: 10, bottom: 75),
                     child: Text(
                       snapshot.data!.description,
                       style: const TextStyle(fontSize: 16),
                       textAlign: TextAlign.justify,
                     ),
                   ),
-                ))
+                )
               ],
             ),
             floatingActionButton: FloatingActionButton.extended(
