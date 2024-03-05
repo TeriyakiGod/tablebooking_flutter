@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tablebooking_flutter/search/list/restaurant_card.dart';
+import 'package:tablebooking_flutter/models/restaurant.dart';
 
 class RestaurantList extends StatelessWidget {
-  final List<String> restaurants;
+  final List<Restaurant> restaurants;
 
   const RestaurantList({super.key, required this.restaurants});
 
@@ -13,15 +14,7 @@ class RestaurantList extends StatelessWidget {
       child: ListView.builder(
         itemCount: restaurants.length,
         itemBuilder: (context, index) {
-          return RestaurantCard(
-            imageUrl: 'https://picsum.photos/seed/${index + 1}/200',
-            title: restaurants[index],
-            rating: 4,
-            openingHours: '10:00',
-            closingHours: '22:00',
-            type: 'Fast Food',
-            description: 'This is a description',
-          );
+          return RestaurantCard(restaurant: restaurants[index]);
         },
       ),
     );

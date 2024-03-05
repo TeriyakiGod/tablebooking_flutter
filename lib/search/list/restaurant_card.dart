@@ -1,25 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tablebooking_flutter/search/tuning/rating.dart';
+import 'package:tablebooking_flutter/search/list/rating.dart';
+import 'package:tablebooking_flutter/models/restaurant.dart';
 
 class RestaurantCard extends StatelessWidget {
-  final String imageUrl;
-  final String title;
-  final int rating;
-  final String openingHours;
-  final String closingHours;
-  final String type;
-  final String description;
+  final Restaurant restaurant;
 
-  const RestaurantCard({
-    super.key,
-    required this.imageUrl,
-    required this.title,
-    required this.rating,
-    required this.openingHours,
-    required this.closingHours,
-    required this.type,
-    required this.description,
-  });
+  const RestaurantCard({super.key, required this.restaurant});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +18,7 @@ class RestaurantCard extends StatelessWidget {
               topRight: Radius.circular(10.0),
             ),
             child: Image.network(
-              imageUrl,
+              restaurant.primaryImageURL,
               fit: BoxFit.cover,
               width: double.infinity,
               height: 200,
@@ -46,14 +32,14 @@ class RestaurantCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      title,
+                      restaurant.name,
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Rating(
-                      rating: rating,
+                      rating: restaurant.rating,
                     ),
                   ],
                 ),
@@ -64,12 +50,12 @@ class RestaurantCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            type,
+                            restaurant.type,
                             style: const TextStyle(
                                 fontSize: 16, color: Colors.grey),
                           ),
                           Text(
-                            '$openingHours - $closingHours ',
+                            '${restaurant.openTime.hour}:00 - ${restaurant.closeTime.hour}:00',
                             style: const TextStyle(
                               fontSize: 16,
                             ),

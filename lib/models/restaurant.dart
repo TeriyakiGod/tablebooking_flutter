@@ -1,13 +1,15 @@
+import 'dart:math';
+
 import 'package:tablebooking_flutter/models/price.dart';
 
 class Restaurant {
   final String name;
   final String type;
-  final String? description;
+  final String description;
   final String location;
   final String phone;
-  final String? primaryImageURL;
-  final String? secondaryImageURL;
+  final String primaryImageURL;
+  final String secondaryImageURL;
   final double rating;
   final Price price;
   final DateTime openTime;
@@ -16,11 +18,11 @@ class Restaurant {
   Restaurant({
     required this.name,
     required this.type,
-    this.description,
+    required this.description,
     required this.location,
     required this.phone,
-    this.primaryImageURL,
-    this.secondaryImageURL,
+    required this.primaryImageURL,
+    required this.secondaryImageURL,
     required this.rating,
     required this.price,
     required this.openTime,
@@ -41,5 +43,29 @@ class Restaurant {
       openTime: DateTime.parse(json['OpenTime']),
       closeTime: DateTime.parse(json['CloseTime']),
     );
+  }
+  static Restaurant example() {
+    var random = Random().nextInt(1000);
+    return Restaurant(
+      name: 'Restaurant Name',
+      type: 'Restaurant Type',
+      description: 'Restaurant Description',
+      location: 'Restaurant Location',
+      phone: 'Restaurant Phone',
+      primaryImageURL: 'https://picsum.photos/seed/$random/200/300',
+      secondaryImageURL: 'https://picsum.photos/$random/200/300',
+      rating: 3.5,
+      price: Price.medium,
+      openTime: DateTime.utc(2021, 1, 1, 8, 0, 0),
+      closeTime: DateTime.utc(2021, 1, 1, 21, 0, 0),
+    );
+  }
+
+  static List<Restaurant> exampleList() {
+    return [
+      Restaurant.example(),
+      Restaurant.example(),
+      Restaurant.example(),
+    ];
   }
 }

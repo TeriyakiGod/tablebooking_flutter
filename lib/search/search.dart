@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tablebooking_flutter/search/list/restaurant_list.dart';
 import 'package:tablebooking_flutter/search/map/restaurant_map.dart';
 import 'package:tablebooking_flutter/search/tuning/tune.dart';
+import 'package:tablebooking_flutter/models/restaurant.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -11,7 +12,7 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  List<String> restaurants = ['Restaurant 1', 'Restaurant 2', 'Restaurant 3'];
+  List<Restaurant> restaurants = Restaurant.exampleList();
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +59,7 @@ class _SearchState extends State<Search> {
           body: TabBarView(
             children: <Widget>[
               RestaurantList(restaurants: restaurants),
-              RestaurantMap(),
+              const RestaurantMap(),
             ],
           ),
         ));
