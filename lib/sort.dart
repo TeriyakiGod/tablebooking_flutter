@@ -22,11 +22,11 @@ class _SortState extends State<Sort> {
             icon: Icon(Icons.local_fire_department)),
         ButtonSegment<SortingMethod>(
             value: SortingMethod.rating,
-            label: Text('Week'),
+            label: Text('Popular'),
             icon: Icon(Icons.star)),
         ButtonSegment<SortingMethod>(
             value: SortingMethod.distance,
-            label: Text('Month'),
+            label: Text('Nearby'),
             icon: Icon(Icons.location_on)),
       ],
       selected: <SortingMethod>{sortingMethod},

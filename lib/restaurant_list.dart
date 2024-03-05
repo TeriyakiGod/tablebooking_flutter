@@ -4,7 +4,7 @@ import 'package:tablebooking_flutter/restaurant_card.dart';
 class RestaurantList extends StatelessWidget {
   final List<String> restaurants;
 
-  RestaurantList({required this.restaurants});
+  const RestaurantList({super.key, required this.restaurants});
 
   @override
   Widget build(BuildContext context) {

@@ -37,7 +37,7 @@ class _SearchState extends State<Search> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return const Tune();
+                        return const Dialog.fullscreen(child: Tune());
                       },
                     );
                   },

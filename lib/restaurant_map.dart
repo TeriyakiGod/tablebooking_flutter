@@ -3,6 +3,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 
 class RestaurantMap extends StatefulWidget {
+  const RestaurantMap({super.key});
+
   @override
   _RestaurantMapState createState() => _RestaurantMapState();
 }
@@ -34,7 +36,7 @@ class _RestaurantMapState extends State<RestaurantMap> {
         desiredAccuracy: LocationAccuracy.high);
     setState(() {
       markers.add(Marker(
-        markerId: MarkerId('currentLocation'),
+        markerId: const MarkerId('currentLocation'),
         position: LatLng(currentPosition.latitude, currentPosition.longitude),
       ));
     });

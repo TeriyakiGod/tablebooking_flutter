@@ -11,7 +11,7 @@ class RestaurantCard extends StatelessWidget {
   final String description;
 
   const RestaurantCard({
-    Key? key,
+    super.key,
     required this.imageUrl,
     required this.title,
     required this.rating,
@@ -19,7 +19,7 @@ class RestaurantCard extends StatelessWidget {
     required this.closingHours,
     required this.type,
     required this.description,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
