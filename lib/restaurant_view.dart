@@ -33,7 +33,8 @@ class _RestaurantViewState extends State<RestaurantView> {
     //   // If the server did not return a 200 OK response, then throw an exception.
     //   throw Exception('Failed to load restaurant');
     // }
-    return Restaurant.example();
+    return Restaurant.example()
+        .firstWhere((element) => element.id == widget.restaurantId);
   }
 
   @override
@@ -47,6 +48,7 @@ class _RestaurantViewState extends State<RestaurantView> {
               title: const Text("Restaurant"),
             ),
             body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Image.network(
                   snapshot.data!.primaryImageURL,
@@ -56,7 +58,7 @@ class _RestaurantViewState extends State<RestaurantView> {
                 ),
                 Container(
                     padding: const EdgeInsets.only(
-                        left: 10, right: 10, top: 10, bottom: 10),
+                        left: 10, right: 10, top: 10, bottom: 5),
                     child: Column(children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

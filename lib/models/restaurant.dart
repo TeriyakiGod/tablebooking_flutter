@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:tablebooking_flutter/models/price.dart';
 
 class Location {
@@ -9,6 +8,7 @@ class Location {
 }
 
 class Restaurant {
+  final String id;
   final String name;
   final String type;
   final String description;
@@ -22,6 +22,7 @@ class Restaurant {
   final DateTime closeTime;
 
   Restaurant({
+    required this.id,
     required this.name,
     required this.type,
     required this.description,
@@ -37,6 +38,7 @@ class Restaurant {
 
   factory Restaurant.fromJson(Map<String, dynamic> json) {
     return Restaurant(
+      id: json['Id'],
       name: json['Name'],
       type: json['Type'],
       description: json['Description'],
@@ -50,30 +52,53 @@ class Restaurant {
       closeTime: DateTime.parse(json['CloseTime']),
     );
   }
-  static Restaurant example() {
-    var random = Random().nextDouble();
-    return Restaurant(
-      name: 'Restaurant Name',
-      type: 'Restaurant Type',
-      description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia eu arcu vitae malesuada. Pellentesque sed velit auctor, egestas nisi quis, tincidunt odio. Aenean nec neque mi. Fusce malesuada erat ac est placerat gravida. Vestibulum vel massa maximus, tincidunt mi a, luctus massa. Fusce at velit eu nulla pharetra imperdiet. Aenean finibus tellus sed posuere varius. Mauris imperdiet nibh purus, sed aliquet erat pharetra sed. Mauris sit amet elit efficitur, tincidunt odio vitae, hendrerit sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia eu arcu vitae malesuada. Pellentesque sed velit auctor, egestas nisi quis, tincidunt odio. Aenean nec neque mi. Fusce malesuada erat ac est placerat gravida. Vestibulum vel massa maximus, tincidunt mi a, luctus massa. Fusce at velit eu nulla pharetra imperdiet. Aenean finibus tellus sed posuere varius. Mauris imperdiet nibh purus, sed aliquet erat pharetra sed. Mauris sit amet elit efficitur, tincidunt odio vitae, hendrerit sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia eu arcu vitae malesuada. Pellentesque sed velit auctor, egestas nisi quis, tincidunt odio. Aenean nec neque mi. Fusce malesuada erat ac est placerat gravida. Vestibulum vel massa maximus, tincidunt mi a, luctus massa. Fusce at velit eu nulla pharetra imperdiet. Aenean finibus tellus sed posuere varius. Mauris imperdiet nibh purus, sed aliquet erat pharetra sed. Mauris sit amet elit efficitur, tincidunt odio vitae, hendrerit sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia eu arcu vitae malesuada. Pellentesque sed velit auctor, egestas nisi quis, tincidunt odio. Aenean nec neque mi. Fusce malesuada erat ac est placerat gravida. Vestibulum vel massa maximus, tincidunt mi a, luctus massa. Fusce at velit eu nulla pharetra imperdiet. Aenean finibus tellus sed posuere varius. Mauris imperdiet nibh purus, sed aliquet erat pharetra sed. Mauris sit amet elit efficitur, tincidunt odio vitae, hendrerit sapien.',
-      location: Location(
-          latitude: 54.1944 + random / 20, longitiude: 16.1722 + random / 20),
-      phone: '+48 128732123',
-      primaryImageURL: 'https://picsum.photos/seed/$random/200/300',
-      secondaryImageURL: 'https://picsum.photos/$random/200/300',
-      rating: 3.5,
-      price: Price.medium,
-      openTime: DateTime.utc(2021, 1, 1, 8, 0, 0),
-      closeTime: DateTime.utc(2021, 1, 1, 21, 0, 0),
-    );
-  }
-
-  static List<Restaurant> exampleList() {
+  static List<Restaurant> example() {
     return [
-      Restaurant.example(),
-      Restaurant.example(),
-      Restaurant.example(),
+      Restaurant(
+        id: '1',
+        name: 'Nienażarty',
+        type: 'Hamburger',
+        description: 'Najlepsze burgery w mieście',
+        location: Location(
+            longitiude: 16.205419735398273, latitude: 54.190559369010174),
+        phone: '1234567890',
+        primaryImageURL: 'https://picsum.photos/id/10/1920/1080',
+        secondaryImageURL: 'https://picsum.photos/id/238/200/300',
+        rating: 4,
+        price: Price.high,
+        openTime: DateTime.utc(0, 0, 0, 8, 0),
+        closeTime: DateTime.utc(0, 0, 0, 22, 0),
+      ),
+      Restaurant(
+        id: '2',
+        name: 'Pizzeria Tre Pomodori',
+        type: 'Pizza',
+        description: 'Najlepsze pizze w mieście',
+        location: Location(
+            longitiude: 16.204880430605304, latitude: 54.196277506404655),
+        phone: '1234567890',
+        primaryImageURL: 'https://picsum.photos/id/15/1920/1080',
+        secondaryImageURL: 'https://picsum.photos/id/213/200/300',
+        rating: 5,
+        price: Price.medium,
+        openTime: DateTime.utc(0, 0, 0, 14, 0),
+        closeTime: DateTime.utc(0, 0, 0, 22, 0),
+      ),
+      Restaurant(
+        id: '3',
+        name: 'AMBASADA',
+        type: 'Thai',
+        description: 'Fajna kuchnia azjatycka',
+        location: Location(
+            longitiude: 16.19371022315012, latitude: 54.19974951669606),
+        phone: '1234567890',
+        primaryImageURL: 'https://picsum.photos/id/999/1920/1080',
+        secondaryImageURL: 'https://picsum.photos/id/203/200/300',
+        rating: 3,
+        price: Price.low,
+        openTime: DateTime.utc(0, 0, 0, 10, 0),
+        closeTime: DateTime.utc(0, 0, 0, 22, 0),
+      ),
     ];
   }
 }

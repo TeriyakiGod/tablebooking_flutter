@@ -31,7 +31,7 @@ class _SearchState extends State<Search> {
     //   // If the server did not return a 200 OK response, then throw an exception.
     //   throw Exception('Failed to load restaurant');
     // }
-    return Restaurant.exampleList();
+    return Restaurant.example();
   }
 
   @override
@@ -77,6 +77,7 @@ class _SearchState extends State<Search> {
             ),
           ),
           body: TabBarView(
+            physics: const NeverScrollableScrollPhysics(),
             children: <Widget>[
               FutureBuilder<List<Restaurant>>(
                 future: restaurants,

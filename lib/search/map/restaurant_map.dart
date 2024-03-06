@@ -48,7 +48,7 @@ class _RestaurantMapState extends State<RestaurantMap> {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      RestaurantView(restaurantId: restaurant.name),
+                      RestaurantView(restaurantId: restaurant.id),
                 ),
               );
             }),
