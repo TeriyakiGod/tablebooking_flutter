@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tablebooking_flutter/models/price.dart';
+import 'package:tablebooking_flutter/models/search_options.dart';
 import 'package:tablebooking_flutter/search/list/rating.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
 import 'package:share_plus/share_plus.dart';

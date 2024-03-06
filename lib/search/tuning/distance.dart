@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 
-class DistanceSlider extends StatefulWidget {
-  const DistanceSlider({super.key});
-
-  @override
-  State<DistanceSlider> createState() => _DistanceSliderState();
-}
-
-class _DistanceSliderState extends State<DistanceSlider> {
+class DistanceSlider extends StatelessWidget {
   final double maxDistance = 10;
-  double _currentSliderValue = 10;
+  final double initialSliderValue;
+  final Function(double) updateOptions;
+
+  const DistanceSlider({
+    super.key,
+    this.initialSliderValue = 10,
+    required this.updateOptions,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Slider(
-      value: _currentSliderValue,
+      value: initialSliderValue,
       max: maxDistance,
       divisions: 10,
-      label: (_currentSliderValue == maxDistance)
-          ? "${_currentSliderValue.round()}+ km"
-          : "${_currentSliderValue.round()} km",
-      onChanged: (double value) {
-        setState(() {
-          _currentSliderValue = value;
-        });
+      label: (initialSliderValue == maxDistance)
+          ? "${initialSliderValue.round()}+ km"
+          : "${initialSliderValue.round()} km",
+      onChanged: (value) {
+        updateOptions.call(value);
       },
     );
   }

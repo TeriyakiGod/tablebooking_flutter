@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tablebooking_flutter/models/search_options.dart';
 import 'package:tablebooking_flutter/search/list/restaurant_list.dart';
 import 'package:tablebooking_flutter/search/map/restaurant_map.dart';
 import 'package:tablebooking_flutter/search/tuning/tune.dart';
@@ -13,6 +14,7 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> {
   late Future<List<Restaurant>> restaurants;
+  SearchOptions searchOptions = SearchOptions.defaultOptions();
 
   @override
   void initState() {
@@ -21,6 +23,7 @@ class _SearchState extends State<Search> {
   }
 
   Future<List<Restaurant>> fetchRestaurant({String query = ''}) async {
+    // TODO: Replace with actual API call, integrate with searchOptions
     // final response = await http.get(
     //     Uri.parse('http://mybackend.com/restaurants'));
 
@@ -31,6 +34,7 @@ class _SearchState extends State<Search> {
     //   // If the server did not return a 200 OK response, then throw an exception.
     //   throw Exception('Failed to load restaurant');
     // }
+    await Future.delayed(const Duration(seconds: 1));
     return Restaurant.example();
   }
 
@@ -58,11 +62,16 @@ class _SearchState extends State<Search> {
               trailing: [
                 IconButton(
                   icon: const Icon(Icons.tune),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Tune()),
+                  onPressed: () async {
+                    final result = await showDialog(
+                      context: context,
+                      builder: (context) => Dialog.fullscreen(
+                        child: Tune(searchOptions: searchOptions),
+                      ),
                     );
+                    setState(() {
+                      searchOptions = result;
+                    });
                   },
                 )
               ],

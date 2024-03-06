@@ -1,4 +1,4 @@
-import 'package:tablebooking_flutter/models/price.dart';
+import 'package:tablebooking_flutter/models/search_options.dart';
 
 class Location {
   final double longitiude;

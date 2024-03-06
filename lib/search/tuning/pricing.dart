@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:tablebooking_flutter/models/price.dart';
+import 'package:tablebooking_flutter/models/search_options.dart';
 
-class Pricing extends StatefulWidget {
-  const Pricing({super.key});
+class Pricing extends StatelessWidget {
+  final Function(Set<Price>) updateOptions;
+  final Set<Price> initialPriceSelection;
 
-  @override
-  State<Pricing> createState() => _PricingState();
-}
-
-class _PricingState extends State<Pricing> {
-  Set<Price> selection = <Price>{Price.low, Price.medium, Price.high};
+  const Pricing(
+      {super.key,
+      required this.updateOptions,
+      required this.initialPriceSelection});
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +18,9 @@ class _PricingState extends State<Pricing> {
         ButtonSegment<Price>(value: Price.medium, label: Text('\$\$')),
         ButtonSegment<Price>(value: Price.high, label: Text('\$\$\$')),
       ],
-      selected: selection,
+      selected: initialPriceSelection,
       onSelectionChanged: (Set<Price> newSelection) {
-        setState(() {
-          selection = newSelection;
-        });
+        updateOptions.call(newSelection);
       },
       multiSelectionEnabled: true,
     );
