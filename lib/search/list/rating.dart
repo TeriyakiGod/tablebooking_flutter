@@ -9,12 +9,19 @@ class Rating extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: List.generate(5, (index) {
-        return Icon(
-          index < rating ? Icons.star : Icons.star_border,
-          color: Colors.amber,
-        );
-      }),
+      children: <Widget>[
+            Text(
+              "$rating ",
+              style: const TextStyle(fontSize: 16),
+            ),
+          ] +
+          List.generate(5, (index) {
+            return Icon(
+              size: 16,
+              index < rating ? Icons.star : Icons.star_border,
+              color: Colors.amber,
+            );
+          }),
     );
   }
 }

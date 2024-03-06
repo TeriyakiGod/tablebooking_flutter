@@ -20,7 +20,7 @@ class _SearchState extends State<Search> {
     restaurants = fetchRestaurant();
   }
 
-  Future<List<Restaurant>> fetchRestaurant() async {
+  Future<List<Restaurant>> fetchRestaurant({String query = ''}) async {
     // final response = await http.get(
     //     Uri.parse('http://mybackend.com/restaurants'));
 
@@ -32,6 +32,13 @@ class _SearchState extends State<Search> {
     //   throw Exception('Failed to load restaurant');
     // }
     return Restaurant.example();
+  }
+
+  void onSearchSubmitted(String value) {
+    print('Search for: $value');
+    setState(() {
+      restaurants = fetchRestaurant(query: value);
+    });
   }
 
   @override
@@ -60,9 +67,7 @@ class _SearchState extends State<Search> {
                 )
               ],
               hintText: 'Search for restaurants',
-              onSubmitted: (value) {
-                print('Search for: $value');
-              },
+              onSubmitted: onSearchSubmitted,
             ),
             bottom: const TabBar(
               tabs: <Widget>[

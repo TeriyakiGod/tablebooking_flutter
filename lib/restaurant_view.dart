@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tablebooking_flutter/models/price.dart';
 // import 'package:http/http.dart' as http;
 // import 'dart:convert';
 import 'package:tablebooking_flutter/models/restaurant.dart';
@@ -58,11 +59,11 @@ class _RestaurantViewState extends State<RestaurantView> {
                 ),
                 Container(
                     padding: const EdgeInsets.only(
-                        left: 10, right: 10, top: 10, bottom: 5),
-                    child: Column(children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
+                        left: 10, right: 10, top: 10, bottom: 10),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Text(
                             snapshot.data!.name,
                             style: const TextStyle(
@@ -70,66 +71,72 @@ class _RestaurantViewState extends State<RestaurantView> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Rating(
-                            rating: snapshot.data!.rating,
-                          ),
-                        ],
-                      ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  snapshot.data!.type,
-                                  style: const TextStyle(
-                                      fontSize: 16, color: Colors.grey),
-                                ),
-                                Text(
-                                  '${snapshot.data!.openTime.hour}:00 - ${snapshot.data!.closeTime.hour}:00',
-                                  style: const TextStyle(
-                                    fontSize: 16,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Rating(
+                                    rating: snapshot.data!.rating,
                                   ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                IconButton(
+                                  Text(
+                                    "${snapshot.data!.type} · ${snapshot.data!.price.displayName}",
+                                    style: const TextStyle(
+                                        fontSize: 16, color: Colors.grey),
+                                  ),
+                                  Text(
+                                    '${snapshot.data!.openTime.hour}:00 - ${snapshot.data!.closeTime.hour}:00',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  IconButton(
                                     icon: const Icon(Icons.favorite),
-                                    onPressed: () => print("Favorite")),
-                                IconButton(
-                                    onPressed: () {
-                                      Share.share("https://google.com");
-                                    },
-                                    icon: const Icon(
-                                      Icons.share,
-                                    ))
-                              ],
-                            )
-                          ])
-                    ])),
+                                    onPressed: () => print("Favorite"),
+                                  ),
+                                  IconButton(
+                                      onPressed: () {
+                                        Share.share(
+                                            "Check out this restaurant! https://www.tablebooking.com/#/restaurant/${snapshot.data!.id}");
+                                      },
+                                      icon: const Icon(
+                                        Icons.share,
+                                      ))
+                                ],
+                              )
+                            ],
+                          ),
+                        ])),
                 const SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Wrap(
                     spacing: 8.0,
                     children: [
-                      Chip(
-                          label: Text("Call restaurant"),
-                          avatar: Icon(Icons.phone)),
-                      Chip(label: Text("View menu"), avatar: Icon(Icons.menu)),
-                      Chip(label: Text("Show on map"), avatar: Icon(Icons.map)),
+                      ActionChip(
+                        label: Text("Call restaurant"),
+                        avatar: Icon(Icons.phone),
+                      ),
+                      ActionChip(
+                          label: Text("View menu"), avatar: Icon(Icons.menu)),
+                      ActionChip(
+                          label: Text("Show on map"), avatar: Icon(Icons.map)),
                     ],
                   ),
                 ),
-                const Divider(),
+                //const Divider(),
                 Expanded(
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
-                    padding:
-                        const EdgeInsets.only(left: 10, right: 10, bottom: 75),
+                    padding: const EdgeInsets.only(
+                        left: 10, right: 10, bottom: 75, top: 10),
                     child: Text(
                       snapshot.data!.description,
                       style: const TextStyle(fontSize: 16),
