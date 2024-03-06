@@ -10,25 +10,23 @@ class RestaurantList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
-      child: ListView.builder(
-        itemCount: restaurants.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      RestaurantView(restaurantId: restaurants[index].id),
-                ),
-              );
-            },
-            child: RestaurantCard(restaurant: restaurants[index]),
-          );
-        },
-      ),
+    return ListView.builder(
+      padding: const EdgeInsets.all(10),
+      itemCount: restaurants.length,
+      itemBuilder: (context, index) {
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    RestaurantView(restaurantId: restaurants[index].id),
+              ),
+            );
+          },
+          child: RestaurantCard(restaurant: restaurants[index]),
+        );
+      },
     );
   }
 }

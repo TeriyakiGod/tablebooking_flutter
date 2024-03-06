@@ -41,29 +41,28 @@ class _SearchState extends State<Search> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            title: Row(
-              children: <Widget>[
-                const Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Search',
-                      prefixIcon: Icon(Icons.search),
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
+            centerTitle: true,
+            title: SearchBar(
+              constraints: const BoxConstraints(
+                minHeight: 50,
+                maxHeight: 50,
+              ),
+              leading: const Icon(Icons.search),
+              trailing: [
                 IconButton(
                   icon: const Icon(Icons.tune),
                   onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return const Dialog.fullscreen(child: Tune());
-                      },
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Tune()),
                     );
                   },
-                ),
+                )
               ],
+              hintText: 'Search for restaurants',
+              onSubmitted: (value) {
+                print('Search for: $value');
+              },
             ),
             bottom: const TabBar(
               tabs: <Widget>[

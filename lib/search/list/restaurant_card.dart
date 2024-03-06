@@ -32,11 +32,15 @@ class RestaurantCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      restaurant.name,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                    FittedBox(
+                      fit: BoxFit
+                          .scaleDown, // You can also try other BoxFit values
+                      child: Text(
+                        restaurant.name,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     Rating(
