@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tablebooking_flutter/navigation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tablebooking_flutter/restaurant_view.dart';
+import 'package:tablebooking_flutter/booking_view.dart';
 
 void main() {
   runApp(const App());
@@ -19,6 +20,11 @@ final _router = GoRouter(
       builder: (context, state) =>
           RestaurantView(restaurantId: state.pathParameters['restaurantId']),
     ),
+    GoRoute(
+      path: '/booking/:restaurantId',
+      builder: (context, state) =>
+          BookingView(restaurantId: state.pathParameters['restaurantId']),
+    )
   ],
 );
 

@@ -5,10 +5,18 @@ import 'package:tablebooking_flutter/models/search_options.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
 import 'package:tablebooking_flutter/search/list/rating.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:tablebooking_flutter/booking_view.dart';
 
 class RestaurantView extends StatefulWidget {
+  final Restaurant? restaurant;
   final String? restaurantId;
-  const RestaurantView({super.key, required this.restaurantId});
+
+  RestaurantView({super.key, this.restaurant, this.restaurantId}) {
+    if (restaurant == null && restaurantId == null) {
+      throw ArgumentError(
+          'You must provide either a restaurant or a restaurantId');
+    }
+  }
 
   @override
   _RestaurantViewState createState() => _RestaurantViewState();
@@ -20,7 +28,9 @@ class _RestaurantViewState extends State<RestaurantView> {
   @override
   void initState() {
     super.initState();
-    restaurant = fetchRestaurant();
+    restaurant = widget.restaurant != null
+        ? Future.value(widget.restaurant)
+        : fetchRestaurant();
   }
 
   Future<Restaurant> fetchRestaurant() async {
@@ -147,7 +157,16 @@ class _RestaurantViewState extends State<RestaurantView> {
               ],
             ),
             floatingActionButton: FloatingActionButton.extended(
-              onPressed: () => print("book"),
+              onPressed: () {
+                null;
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) =>
+                //         BookingView(restaurant: snapshot.data!),
+                //   ),
+                // );
+              },
               label: const Text("Book a table"),
               icon: const Icon(Icons.table_restaurant),
             ),
