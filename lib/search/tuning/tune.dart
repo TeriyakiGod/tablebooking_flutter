@@ -20,7 +20,7 @@ class _TuneState extends State<Tune> {
   void initState() {
     super.initState();
     searchOptions = widget.searchOptions;
-    initialState = searchOptions;
+    initialState = searchOptions.copyWith();
   }
 
   @override
@@ -53,9 +53,9 @@ class _TuneState extends State<Tune> {
             ),
           ),
           Sort(
-            updateOptions: (value) {
+            onChanged: (value) {
               setState(() {
-                searchOptions = searchOptions.copyWith(sortingMethod: value);
+                searchOptions.sortingMethod = value;
               });
             },
             initialSortingMethod: searchOptions.sortingMethod,
@@ -68,9 +68,9 @@ class _TuneState extends State<Tune> {
             ),
           ),
           Pricing(
-            updateOptions: (value) {
+            onChanged: (value) {
               setState(() {
-                searchOptions = searchOptions.copyWith(price: value);
+                searchOptions.price = value;
               });
             },
             initialPriceSelection: searchOptions.price,
@@ -83,9 +83,9 @@ class _TuneState extends State<Tune> {
             ),
           ),
           DistanceSlider(
-            updateOptions: (value) {
+            onChanged: (value) {
               setState(() {
-                searchOptions = searchOptions.copyWith(distance: value);
+                searchOptions.distance = value;
               });
             },
             initialSliderValue: searchOptions.distance,

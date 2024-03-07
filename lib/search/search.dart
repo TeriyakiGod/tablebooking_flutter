@@ -60,6 +60,7 @@ class _SearchState extends State<Search> {
               ),
               leading: const Icon(Icons.search),
               trailing: [
+                //TODO: Integrate the button within tune widget
                 IconButton(
                   icon: const Icon(Icons.tune),
                   onPressed: () async {

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:tablebooking_flutter/models/search_options.dart';
 
 class Pricing extends StatelessWidget {
-  final Function(Set<Price>) updateOptions;
+  final ValueChanged<Set<Price>> onChanged;
   final Set<Price> initialPriceSelection;
 
   const Pricing(
       {super.key,
-      required this.updateOptions,
+      required this.onChanged,
       required this.initialPriceSelection});
 
   @override
@@ -20,7 +20,7 @@ class Pricing extends StatelessWidget {
       ],
       selected: initialPriceSelection,
       onSelectionChanged: (Set<Price> newSelection) {
-        updateOptions.call(newSelection);
+        onChanged(newSelection);
       },
       multiSelectionEnabled: true,
     );

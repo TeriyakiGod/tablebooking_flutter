@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:tablebooking_flutter/models/search_options.dart';
 
 class Sort extends StatelessWidget {
-  final Function(SortingMethod) updateOptions;
+  final ValueChanged<SortingMethod> onChanged;
   final SortingMethod initialSortingMethod;
 
   const Sort(
-      {super.key,
-      required this.updateOptions,
-      required this.initialSortingMethod});
+      {super.key, required this.onChanged, required this.initialSortingMethod});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,7 @@ class Sort extends StatelessWidget {
       selected: <SortingMethod>{initialSortingMethod},
       onSelectionChanged: (selected) {
         if (selected.isNotEmpty) {
-          updateOptions(selected.single);
+          onChanged(selected.single);
         }
       },
     );

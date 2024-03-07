@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tablebooking_flutter/booking_help.dart';
+import 'package:tablebooking_flutter/models/booking_request.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
 import 'package:tablebooking_flutter/number_picker.dart';
 import 'package:tablebooking_flutter/search/list/restaurant_info.dart';
@@ -19,11 +21,14 @@ class BookingView extends StatefulWidget {
 
 class _BookingViewState extends State<BookingView> {
   late Future<Restaurant> restaurant;
-  TimeOfDay selectedTime = TimeOfDay.now();
-  DateTime selectedDate = DateTime.now();
   final TextEditingController dateController = TextEditingController();
   final TextEditingController timeController = TextEditingController();
   bool isDatePicked = false;
+
+  BookingRequest booking = BookingRequest(
+    dateTime: null,
+    guestCount: 2,
+  );
 
   @override
   void initState() {
@@ -54,9 +59,18 @@ class _BookingViewState extends State<BookingView> {
       future: restaurant,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          DateTime now = DateTime.now();
+          DateTime firstDate = (now.hour >= snapshot.data!.closeTime.hour - 2)
+              ? now.add(const Duration(days: 1))
+              : now;
+          booking.dateTime ??= firstDate;
+          DateTime lastDate = firstDate.add(const Duration(days: 90));
           return Scaffold(
             appBar: AppBar(
               title: const Text("Book a table"),
+              actions: const [
+                BookingHelp(),
+              ],
             ),
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,17 +98,16 @@ class _BookingViewState extends State<BookingView> {
                         onTap: () async {
                           final DateTime? pickedDate = await showDatePicker(
                             context: context,
-                            initialDate: selectedDate,
-                            firstDate: selectedDate,
-                            lastDate:
-                                selectedDate.add(const Duration(days: 90)),
+                            initialDate: booking.dateTime,
+                            firstDate: firstDate,
+                            lastDate: lastDate,
                           );
                           if (pickedDate != null &&
-                              pickedDate != selectedDate) {
+                              pickedDate != booking.dateTime) {
                             setState(() {
-                              selectedDate = pickedDate;
+                              booking.dateTime = pickedDate;
                               dateController.text =
-                                  selectedDate.toString().substring(0, 10);
+                                  booking.dateTime.toString().substring(0, 10);
                               isDatePicked = true;
                             });
                           }
@@ -109,18 +122,17 @@ class _BookingViewState extends State<BookingView> {
                           ),
                           onTap: () async {
                             final TimeOfDay? pickedTime = await showTimePicker(
-                              context: context,
-                              initialTime: selectedTime,
-                            );
-                            if (pickedTime != null &&
-                                pickedTime != selectedTime) {
-                              final DateTime now = DateTime.now();
-                              final DateTime currentTime = DateTime(now.year,
-                                  now.month, now.day, now.hour, now.minute);
+                                context: context,
+                                initialTime: TimeOfDay(
+                                    hour: booking.dateTime!.hour,
+                                    minute: booking.dateTime!.minute),
+                                initialEntryMode: TimePickerEntryMode.input);
+                            if (pickedTime != null) {
+                              final DateTime currentTime = DateTime.now();
                               final DateTime selectedDateTime = DateTime(
-                                  selectedDate.year,
-                                  selectedDate.month,
-                                  selectedDate.day,
+                                  booking.dateTime!.year,
+                                  booking.dateTime!.month,
+                                  booking.dateTime!.day,
                                   pickedTime.hour,
                                   pickedTime.minute);
 
@@ -134,33 +146,44 @@ class _BookingViewState extends State<BookingView> {
                                         'Selected time must be at least 2 hours from now.'),
                                   ),
                                 );
+                              } else if (selectedDateTime.hour <
+                                      snapshot.data!.openTime.hour ||
+                                  selectedDateTime.hour >
+                                      snapshot.data!.closeTime.hour - 2) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        'Selected time must be within the restaurant\'s working hours. And at least 2 hours from closing.'),
+                                  ),
+                                );
                               } else {
                                 setState(() {
-                                  selectedTime = pickedTime;
+                                  booking.dateTime = selectedDateTime;
                                   timeController.text =
-                                      selectedTime.format(context);
+                                      pickedTime.format(context);
                                 });
                               }
                             }
                           }),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "Guests: ",
-                            style: Theme.of(context)
-                                .inputDecorationTheme
-                                .labelStyle,
+                          const Text("Guests: ",
+                              style: TextStyle(
+                                fontSize: 16,
+                              )),
+                          NumberPicker(
+                            limit: 10,
+                            value: booking.guestCount,
+                            onChanged: (value) =>
+                                setState(() => booking.guestCount = value),
                           ),
-                          const NumberPicker(limit: 10)
                         ],
                       ),
                       FilledButton(
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Booking confirmed!'),
-                            ),
-                          );
+                          print(booking.dateTime);
+                          print(booking.guestCount);
                         },
                         child: const Text('Book'),
                       ),

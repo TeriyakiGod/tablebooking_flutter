@@ -34,11 +34,8 @@ class SearchOptions {
         distance: 10.0);
   }
 
-  SearchOptions copyWith(
-      {SortingMethod? sortingMethod, Set<Price>? price, double? distance}) {
+  SearchOptions copyWith() {
     return SearchOptions(
-        sortingMethod: sortingMethod ?? this.sortingMethod,
-        price: price ?? this.price,
-        distance: distance ?? this.distance);
+        sortingMethod: sortingMethod, price: price, distance: distance);
   }
 }

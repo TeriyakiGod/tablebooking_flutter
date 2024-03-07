@@ -67,7 +67,7 @@ class Restaurant {
         rating: 4.23,
         price: Price.high,
         openTime: DateTime.utc(0, 0, 0, 8, 0),
-        closeTime: DateTime.utc(0, 0, 0, 22, 0),
+        closeTime: DateTime.utc(0, 0, 0, 21, 0),
       ),
       Restaurant(
         id: '2',
