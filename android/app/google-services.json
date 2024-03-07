@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "35238182052",
+    "project_id": "tablebooking-415811",
+    "storage_bucket": "tablebooking-415811.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:35238182052:android:750e2dac85c505c715fa31",
+        "android_client_info": {
+          "package_name": "com.example.tablebooking_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0NlYW1spPG-mo2v3jUHzxFLfge3hTh9M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

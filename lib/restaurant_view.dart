@@ -5,7 +5,6 @@ import 'package:tablebooking_flutter/models/search_options.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
 import 'package:tablebooking_flutter/search/list/rating.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:tablebooking_flutter/booking_view.dart';
 
 class RestaurantView extends StatefulWidget {
   final Restaurant? restaurant;
