@@ -55,8 +55,8 @@ class _SearchState extends State<Search> {
             centerTitle: true,
             title: SearchBar(
               constraints: const BoxConstraints(
-                minHeight: 50,
-                maxHeight: 50,
+                minHeight: 40,
+                maxHeight: 40,
               ),
               leading: const Icon(Icons.search),
               trailing: [

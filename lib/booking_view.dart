@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
+import 'package:tablebooking_flutter/number_picker.dart';
+import 'package:tablebooking_flutter/search/list/restaurant_info.dart';
 
 class BookingView extends StatefulWidget {
   final Restaurant? restaurant;
@@ -19,6 +21,9 @@ class _BookingViewState extends State<BookingView> {
   late Future<Restaurant> restaurant;
   TimeOfDay selectedTime = TimeOfDay.now();
   DateTime selectedDate = DateTime.now();
+  final TextEditingController dateController = TextEditingController();
+  final TextEditingController timeController = TextEditingController();
+  bool isDatePicked = false;
 
   @override
   void initState() {
@@ -62,28 +67,17 @@ class _BookingViewState extends State<BookingView> {
                   width: double.infinity,
                   height: 200,
                 ),
-                Container(
-                    padding: const EdgeInsets.only(
-                        left: 10, right: 10, top: 10, bottom: 10),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            snapshot.data!.name,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ])),
+                RestaurantInfo(restaurant: snapshot.data!),
+                const Divider(),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       TextFormField(
                         readOnly: true,
+                        controller: dateController,
                         decoration: const InputDecoration(
                           labelText: 'Select Date',
                         ),
@@ -93,35 +87,82 @@ class _BookingViewState extends State<BookingView> {
                             initialDate: selectedDate,
                             firstDate: selectedDate,
                             lastDate:
-                                selectedDate.add(const Duration(days: 365)),
+                                selectedDate.add(const Duration(days: 90)),
                           );
                           if (pickedDate != null &&
                               pickedDate != selectedDate) {
                             setState(() {
                               selectedDate = pickedDate;
+                              dateController.text =
+                                  selectedDate.toString().substring(0, 10);
+                              isDatePicked = true;
                             });
                           }
                         },
                       ),
                       TextFormField(
-                        readOnly: true,
-                        decoration: const InputDecoration(
-                          labelText: 'Select Time',
-                        ),
-                        onTap: () async {
-                          final TimeOfDay? pickedTime = await showTimePicker(
-                            context: context,
-                            initialTime: selectedTime,
+                          enabled: isDatePicked,
+                          readOnly: true,
+                          controller: timeController,
+                          decoration: const InputDecoration(
+                            labelText: 'Select Time',
+                          ),
+                          onTap: () async {
+                            final TimeOfDay? pickedTime = await showTimePicker(
+                              context: context,
+                              initialTime: selectedTime,
+                            );
+                            if (pickedTime != null &&
+                                pickedTime != selectedTime) {
+                              final DateTime now = DateTime.now();
+                              final DateTime currentTime = DateTime(now.year,
+                                  now.month, now.day, now.hour, now.minute);
+                              final DateTime selectedDateTime = DateTime(
+                                  selectedDate.year,
+                                  selectedDate.month,
+                                  selectedDate.day,
+                                  pickedTime.hour,
+                                  pickedTime.minute);
+
+                              if (selectedDateTime
+                                      .difference(currentTime)
+                                      .inMinutes <
+                                  120) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        'Selected time must be at least 2 hours from now.'),
+                                  ),
+                                );
+                              } else {
+                                setState(() {
+                                  selectedTime = pickedTime;
+                                  timeController.text =
+                                      selectedTime.format(context);
+                                });
+                              }
+                            }
+                          }),
+                      Row(
+                        children: [
+                          Text(
+                            "Guests: ",
+                            style: Theme.of(context)
+                                .inputDecorationTheme
+                                .labelStyle,
+                          ),
+                          const NumberPicker(limit: 10)
+                        ],
+                      ),
+                      FilledButton(
+                        onPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Booking confirmed!'),
+                            ),
                           );
-                          if (pickedTime != null &&
-                              pickedTime != selectedTime) {
-                            setState(() {
-                              selectedTime = pickedTime;
-                            });
-                          }
                         },
-                        controller: TextEditingController(
-                            text: selectedTime.format(context)),
+                        child: const Text('Book'),
                       ),
                     ],
                   ),

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tablebooking_flutter/models/search_options.dart';
 // import 'package:http/http.dart' as http;
 // import 'dart:convert';
 import 'package:tablebooking_flutter/models/restaurant.dart';
-import 'package:tablebooking_flutter/search/list/rating.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:tablebooking_flutter/search/list/restaurant_info.dart';
+import 'package:tablebooking_flutter/booking_view.dart';
 
 class RestaurantView extends StatefulWidget {
   final Restaurant? restaurant;
@@ -66,63 +65,8 @@ class _RestaurantViewState extends State<RestaurantView> {
                   width: double.infinity,
                   height: 200,
                 ),
-                Container(
-                    padding: const EdgeInsets.only(
-                        left: 10, right: 10, top: 10, bottom: 10),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            snapshot.data!.name,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Rating(
-                                    rating: snapshot.data!.rating,
-                                  ),
-                                  Text(
-                                    "${snapshot.data!.type} · ${snapshot.data!.price.displayName}",
-                                    style: const TextStyle(
-                                        fontSize: 16, color: Colors.grey),
-                                  ),
-                                  Text(
-                                    '${snapshot.data!.openTime.hour}:00 - ${snapshot.data!.closeTime.hour}:00',
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.favorite),
-                                    onPressed: () => print("Favorite"),
-                                  ),
-                                  IconButton(
-                                      onPressed: () {
-                                        Share.share(
-                                            "Check out this restaurant! https://www.tablebooking.com/#/restaurant/${snapshot.data!.id}");
-                                      },
-                                      icon: const Icon(
-                                        Icons.share,
-                                      ))
-                                ],
-                              )
-                            ],
-                          ),
-                        ])),
+                RestaurantInfo(restaurant: snapshot.data!),
+                const Divider(),
                 const SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   padding: EdgeInsets.symmetric(horizontal: 10),
@@ -140,7 +84,6 @@ class _RestaurantViewState extends State<RestaurantView> {
                     ],
                   ),
                 ),
-                //const Divider(),
                 Expanded(
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
@@ -157,14 +100,13 @@ class _RestaurantViewState extends State<RestaurantView> {
             ),
             floatingActionButton: FloatingActionButton.extended(
               onPressed: () {
-                null;
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) =>
-                //         BookingView(restaurant: snapshot.data!),
-                //   ),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        BookingView(restaurant: snapshot.data!),
+                  ),
+                );
               },
               label: const Text("Book a table"),
               icon: const Icon(Icons.table_restaurant),
