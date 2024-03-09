@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:tablebooking_flutter/search/search.dart';
+import 'package:go_router/go_router.dart';
 
-class Navigation extends StatefulWidget {
-  const Navigation({super.key});
-
-  @override
-  State<Navigation> createState() => _NavigationState();
-}
-
-class _NavigationState extends State<Navigation> {
-  int currentPageIndex = 0;
+class Navigation extends StatelessWidget {
+  final Widget child;
+  const Navigation({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        selectedIndex: currentPageIndex,
+        selectedIndex: _calculateSelectedIndex(context),
+        onDestinationSelected: (int index) =>
+            _onDestinationSelected(index, context),
         destinations: const <Widget>[
           NavigationDestination(
             icon: Icon(Icons.search),
@@ -39,16 +30,32 @@ class _NavigationState extends State<Navigation> {
           ),
         ],
       ),
-      body: <Widget>[
-        /// Home page
-        const Search(),
-
-        /// Notifications page
-        const Center(child: Text('Bookings')),
-
-        /// Messages page
-        const Center(child: Text('Account')),
-      ][currentPageIndex],
+      body: child,
     );
+  }
+
+  static int _calculateSelectedIndex(BuildContext context) {
+    final String location = GoRouterState.of(context).uri.toString();
+    if (location.startsWith('/search')) {
+      return 0;
+    }
+    if (location.startsWith('/bookings')) {
+      return 1;
+    }
+    if (location.startsWith('/account')) {
+      return 2;
+    }
+    return 0;
+  }
+
+  void _onDestinationSelected(int index, BuildContext context) {
+    switch (index) {
+      case 0:
+        GoRouter.of(context).go('/search');
+      case 1:
+        GoRouter.of(context).go('/bookings');
+      case 2:
+        GoRouter.of(context).go('/account');
+    }
   }
 }

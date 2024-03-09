@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tablebooking_flutter/search/list/restaurant_card.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
-import 'package:tablebooking_flutter/restaurant_view.dart';
+import 'package:tablebooking_flutter/restaurant/restaurant_view.dart';
 
 class RestaurantList extends StatelessWidget {
   final List<Restaurant> restaurants;
@@ -15,6 +15,7 @@ class RestaurantList extends StatelessWidget {
       itemCount: restaurants.length,
       itemBuilder: (context, index) {
         return GestureDetector(
+          child: RestaurantCard(restaurant: restaurants[index]),
           onTap: () {
             Navigator.push(
               context,
@@ -24,7 +25,6 @@ class RestaurantList extends StatelessWidget {
               ),
             );
           },
-          child: RestaurantCard(restaurant: restaurants[index]),
         );
       },
     );

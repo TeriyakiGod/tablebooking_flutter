@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
-import 'package:tablebooking_flutter/restaurant_view.dart';
+import 'package:tablebooking_flutter/restaurant/restaurant_view.dart';
 
 class RestaurantMap extends StatefulWidget {
   final List<Restaurant> restaurants;

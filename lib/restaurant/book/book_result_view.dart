@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:tablebooking_flutter/models/booking_request.dart';
-import 'package:tablebooking_flutter/models/booking_response.dart';
+import 'package:tablebooking_flutter/models/booking.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class BookingResultView extends StatefulWidget {
+class BookResultView extends StatefulWidget {
   final BookingRequest bookingRequest;
 
-  BookingResultView({required this.bookingRequest});
+  BookResultView({required this.bookingRequest});
 
   @override
-  _BookingResultViewState createState() => _BookingResultViewState();
+  _BookResultViewState createState() => _BookResultViewState();
 }
 
-class _BookingResultViewState extends State<BookingResultView> {
-  late Future<BookingResponse> bookingResponse;
+class _BookResultViewState extends State<BookResultView> {
+  late Future<Booking> bookingResponse;
 
   @override
   void initState() {
@@ -22,8 +22,7 @@ class _BookingResultViewState extends State<BookingResultView> {
     bookingResponse = sendBookingRequest(widget.bookingRequest);
   }
 
-  Future<BookingResponse> sendBookingRequest(
-      BookingRequest bookingRequest) async {
+  Future<Booking> sendBookingRequest(BookingRequest bookingRequest) async {
     // final response = await http.post(
     //   Uri.parse('http://mybackend.com/bookings'),
     //   headers: <String, String>{
@@ -38,18 +37,12 @@ class _BookingResultViewState extends State<BookingResultView> {
     //   throw Exception('Failed to book a table.');
     // }
     await Future.delayed(const Duration(seconds: 2));
-    return BookingResponse(
-      id: '123',
-      tableId: '456',
-      customerId: '789',
-      bookingTime: DateTime.now().add(const Duration(days: 7)),
-      isConfirmed: true,
-    );
+    return Booking.example()[1];
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<BookingResponse>(
+    return FutureBuilder<Booking>(
       future: bookingResponse,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

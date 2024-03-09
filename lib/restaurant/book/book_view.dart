@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:tablebooking_flutter/booking_help.dart';
+import 'package:tablebooking_flutter/restaurant/book/book_help.dart';
 import 'package:tablebooking_flutter/models/booking_request.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
-import 'package:tablebooking_flutter/number_picker.dart';
+import 'package:tablebooking_flutter/restaurant/book/number_picker.dart';
 import 'package:tablebooking_flutter/search/list/restaurant_info.dart';
-import 'package:tablebooking_flutter/booking_result_view.dart';
+import 'package:tablebooking_flutter/restaurant/book/book_result_view.dart';
 
-class BookingView extends StatefulWidget {
+class BookView extends StatefulWidget {
   final Restaurant? restaurant;
   final String? restaurantId;
 
-  BookingView({super.key, this.restaurant, this.restaurantId}) {
+  BookView({super.key, this.restaurant, this.restaurantId}) {
     if (restaurant == null && restaurantId == null) {
       throw ArgumentError(
           'You must provide either a restaurant or a restaurantId');
     }
   }
   @override
-  _BookingViewState createState() => _BookingViewState();
+  _BookViewState createState() => _BookViewState();
 }
 
-class _BookingViewState extends State<BookingView> {
+class _BookViewState extends State<BookView> {
   late Future<Restaurant> restaurant;
   final TextEditingController dateController = TextEditingController();
   final TextEditingController timeController = TextEditingController();
@@ -89,7 +89,7 @@ class _BookingViewState extends State<BookingView> {
                 if (book)
                   Expanded(
                     child: Center(
-                      child: BookingResultView(
+                      child: BookResultView(
                         bookingRequest: booking,
                       ),
                     ),

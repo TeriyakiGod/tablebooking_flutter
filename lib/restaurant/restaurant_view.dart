@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 // import 'package:http/http.dart' as http;
 // import 'dart:convert';
 import 'package:tablebooking_flutter/models/restaurant.dart';
 import 'package:tablebooking_flutter/search/list/restaurant_info.dart';
-import 'package:tablebooking_flutter/booking_view.dart';
+import 'package:tablebooking_flutter/restaurant/book/book_view.dart';
 
 class RestaurantView extends StatefulWidget {
   final Restaurant? restaurant;
@@ -54,6 +55,16 @@ class _RestaurantViewState extends State<RestaurantView> {
         if (snapshot.hasData) {
           return Scaffold(
             appBar: AppBar(
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  if (Navigator.canPop(context)) {
+                    Navigator.pop(context);
+                  } else {
+                    GoRouter.of(context).go('/search');
+                  }
+                },
+              ),
               title: const Text("Restaurant"),
             ),
             body: Column(
@@ -103,8 +114,7 @@ class _RestaurantViewState extends State<RestaurantView> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        BookingView(restaurant: snapshot.data!),
+                    builder: (context) => BookView(restaurant: snapshot.data!),
                   ),
                 );
               },
