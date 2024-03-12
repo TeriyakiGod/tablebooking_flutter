@@ -45,50 +45,73 @@ class _TuneState extends State<Tune> {
       ),
       body: Column(
         children: <Widget>[
-          const ListTile(
-            title: Text(
-              'Sort by',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold),
+          Card(
+              margin: const EdgeInsets.only(bottom: 8, left: 10, right: 10),
+              child: Column(
+                children: [
+                  const ListTile(
+                    title: Text(
+                      'Sort by',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Sort(
+                    onChanged: (value) {
+                      setState(() {
+                        searchOptions.sortingMethod = value;
+                      });
+                    },
+                    initialSortingMethod: searchOptions.sortingMethod,
+                  ),
+                  const Padding(padding: EdgeInsets.only(bottom: 20)),
+                ],
+              )),
+          Card(
+            margin: const EdgeInsets.only(bottom: 8, left: 10, right: 10),
+            child: Column(
+              children: [
+                const ListTile(
+                  title: Text(
+                    "Pricing",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Pricing(
+                  onChanged: (value) {
+                    setState(() {
+                      searchOptions.price = value;
+                    });
+                  },
+                  initialPriceSelection: searchOptions.price,
+                ),
+                const Padding(padding: EdgeInsets.only(bottom: 20)),
+              ],
             ),
           ),
-          Sort(
-            onChanged: (value) {
-              setState(() {
-                searchOptions.sortingMethod = value;
-              });
-            },
-            initialSortingMethod: searchOptions.sortingMethod,
-          ),
-          const ListTile(
-            title: Text(
-              "Pricing",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold),
+          Card(
+            margin: const EdgeInsets.only(bottom: 8, left: 10, right: 10),
+            child: Column(
+              children: [
+                const ListTile(
+                  title: Text(
+                    "Distance",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                DistanceSlider(
+                  onChanged: (value) {
+                    setState(() {
+                      searchOptions.distance = value;
+                    });
+                  },
+                  initialSliderValue: searchOptions.distance,
+                ),
+                const Padding(padding: EdgeInsets.only(bottom: 10)),
+              ],
             ),
-          ),
-          Pricing(
-            onChanged: (value) {
-              setState(() {
-                searchOptions.price = value;
-              });
-            },
-            initialPriceSelection: searchOptions.price,
-          ),
-          const ListTile(
-            title: Text(
-              "Distance",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          DistanceSlider(
-            onChanged: (value) {
-              setState(() {
-                searchOptions.distance = value;
-              });
-            },
-            initialSliderValue: searchOptions.distance,
           ),
         ],
       ),

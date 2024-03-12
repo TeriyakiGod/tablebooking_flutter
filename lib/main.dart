@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tablebooking_flutter/bookings/bookings_view.dart';
-import 'package:tablebooking_flutter/navigation.dart';
-import 'package:go_router/go_router.dart';
-import 'package:tablebooking_flutter/restaurant/restaurant_view.dart';
-import 'package:tablebooking_flutter/restaurant/book/book_view.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:tablebooking_flutter/search/search.dart';
 import 'firebase_options.dart';
+import 'router.dart';
 
 Future<void> main() async {
   await Firebase.initializeApp(
@@ -14,42 +9,6 @@ Future<void> main() async {
   );
   runApp(const App());
 }
-
-final _router = GoRouter(
-  initialLocation: "/search",
-  routes: [
-    ShellRoute(
-      builder: (BuildContext context, GoRouterState state, Widget child) {
-        return Navigation(
-          child: child,
-        );
-      },
-      routes: <RouteBase>[
-        GoRoute(
-          path: '/search',
-          builder: (context, state) => const Search(),
-        ),
-        GoRoute(
-          path: '/bookings',
-          builder: (context, state) => const BookingsView(),
-        ),
-        GoRoute(
-            path: '/account',
-            builder: (context, state) => const Center(child: Text('Account'))),
-      ],
-    ),
-    GoRoute(
-      path: '/restaurant/:restaurantId',
-      builder: (context, state) =>
-          RestaurantView(restaurantId: state.pathParameters['restaurantId']),
-    ),
-    GoRoute(
-      path: '/booking/:restaurantId',
-      builder: (context, state) =>
-          BookView(restaurantId: state.pathParameters['restaurantId']),
-    )
-  ],
-);
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -60,7 +19,7 @@ class App extends StatelessWidget {
       theme: ThemeData(useMaterial3: true),
       darkTheme: ThemeData.dark(useMaterial3: true),
       themeMode: ThemeMode.dark,
-      routerConfig: _router,
+      routerConfig: router,
     );
   }
 }
