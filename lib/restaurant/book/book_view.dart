@@ -41,6 +41,8 @@ class _BookViewState extends State<BookView> {
         : fetchRestaurant();
   }
 
+  //TODO: Implement fetching
+  //TODO: Let only choose time in 30 minutes intervals
   Future<Restaurant> fetchRestaurant() async {
     // final response = await http.get(
     //     Uri.parse('http://mybackend.com/restaurants/${widget.restaurantId}'));

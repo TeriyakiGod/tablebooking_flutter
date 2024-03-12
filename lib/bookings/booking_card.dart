@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tablebooking_flutter/models/booking.dart';
-import 'package:tablebooking_flutter/search/list/restaurant_info.dart';
+import 'package:tablebooking_flutter/bookings/booking_info.dart';
 
 class BookingCard extends StatelessWidget {
   final Booking booking;
@@ -26,6 +26,7 @@ class BookingCard extends StatelessWidget {
               height: 200,
             ),
           ),
+          BookingInfo(booking: booking)
         ],
       ),
     );

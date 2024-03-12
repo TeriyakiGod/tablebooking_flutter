@@ -57,14 +57,6 @@ class Booking {
         bookingTime: DateTime.now().add(const Duration(days: 2)),
         isConfirmed: false,
       ),
-      Booking(
-        id: '3',
-        restaurantId: '3',
-        restaurantName: 'Restaurant 3',
-        restaurantImage: Restaurant.example()[3].primaryImageURL,
-        bookingTime: DateTime.now().add(const Duration(days: 3)),
-        isConfirmed: true,
-      ),
     ];
   }
 }
