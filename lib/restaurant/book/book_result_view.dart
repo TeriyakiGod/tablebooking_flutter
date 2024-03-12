@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tablebooking_flutter/models/booking_request.dart';
 import 'package:tablebooking_flutter/models/booking.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class BookResultView extends StatefulWidget {
   final BookingRequest bookingRequest;

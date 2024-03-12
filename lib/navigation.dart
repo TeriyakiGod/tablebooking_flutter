@@ -18,14 +18,11 @@ class Navigation extends StatelessWidget {
             label: 'Search',
           ),
           NavigationDestination(
-            icon: Badge(child: Icon(Icons.calendar_month)),
+            icon: Icon(Icons.calendar_month),
             label: 'Bookings',
           ),
           NavigationDestination(
-            icon: Badge(
-              label: Text('2'),
-              child: Icon(Icons.person),
-            ),
+            icon: Icon(Icons.person),
             label: 'Account',
           ),
         ],
