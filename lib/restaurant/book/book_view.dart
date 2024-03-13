@@ -77,8 +77,7 @@ class _BookViewState extends State<BookView> {
                 BookingHelp(),
               ],
             ),
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            body: ListView(
               children: <Widget>[
                 Image.network(
                   snapshot.data!.primaryImageURL,
@@ -89,17 +88,16 @@ class _BookViewState extends State<BookView> {
                 RestaurantInfo(restaurant: snapshot.data!),
                 const Divider(),
                 if (book)
-                  Expanded(
-                    child: Center(
-                      child: BookResultView(
-                        bookingRequest: booking,
-                      ),
+                  Center(
+                    child: BookResultView(
+                      bookingRequest: booking,
                     ),
                   )
                 else
+                  //TODO: Move the scrollView to the top
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 10),
+                    padding:
+                        const EdgeInsets.only(left: 20, right: 20, bottom: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [

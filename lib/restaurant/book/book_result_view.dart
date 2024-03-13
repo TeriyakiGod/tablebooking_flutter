@@ -5,7 +5,7 @@ import 'package:tablebooking_flutter/models/booking.dart';
 class BookResultView extends StatefulWidget {
   final BookingRequest bookingRequest;
 
-  BookResultView({required this.bookingRequest});
+  const BookResultView({super.key, required this.bookingRequest});
 
   @override
   _BookResultViewState createState() => _BookResultViewState();
@@ -74,20 +74,30 @@ class _BookResultViewState extends State<BookResultView> {
             children: [
               Text("Booking successful!",
                   style: Theme.of(context).textTheme.titleLarge),
-              ListTile(
-                title: Text('Booking ID: ${snapshot.data!.id}'),
-              ),
-              ListTile(
-                title: Text(
-                    'Date: ${snapshot.data!.bookingTime.toString().substring(0, 10)}'),
-              ),
-              ListTile(
-                title: Text(
-                    'Time: ${snapshot.data!.bookingTime.toString().substring(11, 16)}'),
-              ),
-              ListTile(
-                title: Text(
-                    'Confirmation: ${snapshot.data!.isConfirmed ? 'Confirmed' : 'Pending'}'),
+              Card(
+                margin: const EdgeInsets.all(10.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Booking ID: ${snapshot.data!.id}',
+                          style: Theme.of(context).textTheme.titleMedium),
+                      const SizedBox(height: 10.0),
+                      Text(
+                          'Date: ${snapshot.data!.bookingTime.toString().substring(0, 10)}',
+                          style: Theme.of(context).textTheme.titleMedium),
+                      const SizedBox(height: 10.0),
+                      Text(
+                          'Time: ${snapshot.data!.bookingTime.toString().substring(11, 16)}',
+                          style: Theme.of(context).textTheme.titleMedium),
+                      const SizedBox(height: 10.0),
+                      Text(
+                          'Confirmation: ${snapshot.data!.isConfirmed ? 'Confirmed' : 'Pending'}',
+                          style: Theme.of(context).textTheme.titleMedium),
+                    ],
+                  ),
+                ),
               ),
               FilledButton(
                 onPressed: () {
@@ -95,6 +105,7 @@ class _BookResultViewState extends State<BookResultView> {
                 },
                 child: const Text('Done'),
               ),
+              const SizedBox(height: 10),
             ],
           );
         }

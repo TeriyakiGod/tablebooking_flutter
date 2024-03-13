@@ -38,6 +38,6 @@ final router = GoRouter(
       path: '/booking/:restaurantId',
       builder: (context, state) =>
           BookView(restaurantId: state.pathParameters['restaurantId']),
-    )
+    ),
   ],
 );

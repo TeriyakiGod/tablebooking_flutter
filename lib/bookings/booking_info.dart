@@ -24,22 +24,24 @@ class BookingInfo extends StatelessWidget {
               ),
             ),
             Wrap(
-              spacing: 8.0,
+              direction: Axis.horizontal,
+              spacing: 10,
               children: [
-                Chip(
-                    avatar: const Icon(Icons.calendar_today),
-                    label:
-                        Text(booking.bookingTime.toString().substring(0, 10))),
                 Chip(
                     avatar: const Icon(Icons.access_time),
                     label:
                         Text(booking.bookingTime.toString().substring(11, 16))),
+                Chip(
+                    avatar: const Icon(Icons.calendar_today),
+                    label:
+                        Text(booking.bookingTime.toString().substring(0, 10))),
                 Chip(
                     avatar: (booking.isConfirmed
                         ? const Icon(Icons.check)
                         : const Icon(Icons.pending_actions)),
                     label: Text(booking.isConfirmed ? "Confirmed" : "Pending")),
                 ActionChip(
+                    elevation: 1,
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -51,8 +53,14 @@ class BookingInfo extends StatelessWidget {
                     },
                     label: const Text("Restaurant details"),
                     avatar: const Icon(Icons.restaurant)),
-                const ActionChip(
-                    label: Text("Manage booking"), avatar: Icon(Icons.edit)),
+                ActionChip(
+                  elevation: 2,
+                  label: const Text("Manage booking"),
+                  avatar: const Icon(Icons.edit),
+                  onPressed: () {
+                    print("Manage booking");
+                  },
+                ),
               ],
             ),
           ],

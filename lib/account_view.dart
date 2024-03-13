@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tablebooking_flutter/help_view.dart';
+import 'about_view.dart';
 
 class AccountView extends StatelessWidget {
   const AccountView({super.key});
@@ -20,32 +22,47 @@ class AccountView extends StatelessWidget {
           ),
           Expanded(
             child: ListView(
-              children: const [
-                ListTile(
+              children: [
+                const ListTile(
                   title: Text('Favorites'),
                   leading: Icon(Icons.favorite),
                 ),
-                ListTile(
+                const ListTile(
                   title: Text('Promotions'),
                   leading: Icon(Icons.local_offer),
                 ),
-                ListTile(
+                const ListTile(
                   title: Text('Personal information'),
                   leading: Icon(Icons.person),
                 ),
-                ListTile(
+                const ListTile(
                   title: Text('Preferences'),
                   leading: Icon(Icons.settings),
                 ),
                 ListTile(
-                  title: Text('Help'),
-                  leading: Icon(Icons.help),
+                  title: const Text('Help'),
+                  leading: const Icon(Icons.help),
+                  onTap: () {
+                    // Navigate to HelpView
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HelpView()),
+                    );
+                  },
                 ),
                 ListTile(
-                  title: Text('About'),
-                  leading: Icon(Icons.info),
+                  title: const Text('About'),
+                  leading: const Icon(Icons.info),
+                  onTap: () {
+                    // Navigate to AboutView
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AboutView()),
+                    );
+                  },
                 ),
-                ListTile(
+                const ListTile(
                   title: Text('Log out'),
                   leading: Icon(Icons.exit_to_app),
                 ),
