@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tablebooking_flutter/bookings/bookings_list.dart';
 import 'package:tablebooking_flutter/models/booking.dart';
+import 'package:tablebooking_flutter/providers/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 class BookingsView extends StatefulWidget {
   const BookingsView({super.key});
@@ -39,16 +41,38 @@ class _BookingsViewState extends State<BookingsView> {
       appBar: AppBar(
         title: const Text('My bookings'),
       ),
-      body: FutureBuilder<List<Booking>>(
-        future: bookings,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('${snapshot.error}'));
-          } else {
-            return BookingsList(bookings: snapshot.data!);
-          }
+      body: Consumer<AuthProvider>(
+        builder: (context, authProvider, child) {
+          return FutureBuilder<bool>(
+            future: authProvider.isAuthenticated,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator(); // Show loading spinner while waiting for auth status
+              } else {
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return snapshot.data!
+                      ? FutureBuilder<List<Booking>>(
+                          future: bookings,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            } else if (snapshot.hasError) {
+                              return Center(child: Text('${snapshot.error}'));
+                            } else {
+                              return BookingsList(bookings: snapshot.data!);
+                            }
+                          },
+                        )
+                      : const Center(
+                          child: Text('Please sign in to view your bookings'));
+                }
+              }
+            },
+          );
         },
       ),
     );

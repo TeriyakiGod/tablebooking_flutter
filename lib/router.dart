@@ -1,4 +1,4 @@
-import 'package:tablebooking_flutter/account_view.dart';
+import 'package:tablebooking_flutter/account/account_view.dart';
 import 'package:tablebooking_flutter/bookings/bookings_view.dart';
 import 'package:tablebooking_flutter/navigation.dart';
 import 'package:go_router/go_router.dart';
@@ -26,7 +26,9 @@ final router = GoRouter(
           builder: (context, state) => const BookingsView(),
         ),
         GoRoute(
-            path: '/account', builder: (context, state) => const AccountView()),
+          path: '/account',
+          builder: (context, state) => const AccountView(),
+        ),
       ],
     ),
     GoRoute(
