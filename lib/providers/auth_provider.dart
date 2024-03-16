@@ -79,4 +79,6 @@ class AuthProvider with ChangeNotifier {
     _expiryDate = null;
     notifyListeners();
   }
+
+  void sendPasswordResetEmail(String email) {}
 }

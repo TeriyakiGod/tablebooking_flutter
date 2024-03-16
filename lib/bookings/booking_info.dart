@@ -23,9 +23,11 @@ class BookingInfo extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            const SizedBox(height: 10),
             Wrap(
               direction: Axis.horizontal,
               spacing: 10,
+              runSpacing: 10,
               children: [
                 Chip(
                     avatar: const Icon(Icons.access_time),

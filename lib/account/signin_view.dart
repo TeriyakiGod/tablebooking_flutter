@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'signup_view.dart';
 import 'package:provider/provider.dart';
 import 'package:tablebooking_flutter/providers/auth_provider.dart';
+import 'forgot_password_view.dart';
 
 class SignInView extends StatefulWidget {
   const SignInView({super.key});
@@ -60,9 +61,16 @@ class _SignInViewState extends State<SignInView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const TextButton(
-                            onPressed: null,
-                            child: Text('Forgot your password?',
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ForgotPasswordView(),
+                                ),
+                              );
+                            },
+                            child: const Text('Forgot your password?',
                                 textAlign: TextAlign.left),
                           ),
                           FilledButton(
