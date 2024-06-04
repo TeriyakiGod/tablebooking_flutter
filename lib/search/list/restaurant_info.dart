@@ -57,7 +57,7 @@ class RestaurantInfo extends StatelessWidget {
                     IconButton(
                         onPressed: () {
                           Share.share(
-                              "Check out this restaurant! https://www.tablebooking.com/#/restaurant/${restaurant.id}");
+                              "Check out this restaurant! https://www.tablebooking.com/#/restaurant/${restaurant.hashCode}");
                         },
                         icon: const Icon(
                           Icons.share,

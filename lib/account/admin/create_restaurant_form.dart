@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
 import 'package:tablebooking_flutter/models/search_options.dart';
+import 'package:tablebooking_flutter/providers/restaurant_provider.dart';
 
 class CreateRestaurantForm extends StatefulWidget {
   const CreateRestaurantForm({super.key});
@@ -11,6 +13,7 @@ class CreateRestaurantForm extends StatefulWidget {
 
 class CreateRestaurantFormState extends State<CreateRestaurantForm> {
   Restaurant restaurant = Restaurant.example().first;
+  final _formKey = GlobalKey<FormState>();
 
   void pickOpeningDateAndTime() {
     showDatePicker(
@@ -68,11 +71,26 @@ class CreateRestaurantFormState extends State<CreateRestaurantForm> {
     });
   }
 
+  void saveForm() {
+    final isValid = _formKey.currentState?.validate();
+    if (!isValid!) {
+      return;
+    }
+    _formKey.currentState?.save();
+    Provider.of<RestaurantProvider>(context, listen: false)
+        .addRestaurant(restaurant);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Restaurant created!')),
+    );
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Form(
+        key: _formKey,
         child: Column(
           children: [
             TextFormField(
@@ -180,6 +198,10 @@ class CreateRestaurantFormState extends State<CreateRestaurantForm> {
                   child: const Text('Pick'),
                 ),
               ],
+            ),
+            ElevatedButton(
+              onPressed: saveForm,
+              child: const Text('Save'),
             ),
           ],
         ),

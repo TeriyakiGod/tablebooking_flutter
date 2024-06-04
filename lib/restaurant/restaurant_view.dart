@@ -8,7 +8,7 @@ import 'package:tablebooking_flutter/restaurant/book/book_view.dart';
 
 class RestaurantView extends StatefulWidget {
   final Restaurant? restaurant;
-  final String? restaurantId;
+  final int? restaurantId;
 
   RestaurantView({super.key, this.restaurant, this.restaurantId}) {
     if (restaurant == null && restaurantId == null) {
@@ -18,10 +18,10 @@ class RestaurantView extends StatefulWidget {
   }
 
   @override
-  _RestaurantViewState createState() => _RestaurantViewState();
+  RestaurantViewState createState() => RestaurantViewState();
 }
 
-class _RestaurantViewState extends State<RestaurantView> {
+class RestaurantViewState extends State<RestaurantView> {
   late Future<Restaurant> restaurant;
 
   @override
@@ -44,7 +44,7 @@ class _RestaurantViewState extends State<RestaurantView> {
     //   throw Exception('Failed to load restaurant');
     // }
     return Restaurant.example()
-        .firstWhere((element) => element.id == widget.restaurantId);
+        .firstWhere((element) => element.hashCode == widget.restaurantId);
   }
 
   @override

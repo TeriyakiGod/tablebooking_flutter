@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tablebooking_flutter/providers/restaurant_provider.dart';
 
 class DeleteRestaurantForm extends StatefulWidget {
   const DeleteRestaurantForm({super.key});
@@ -9,6 +11,7 @@ class DeleteRestaurantForm extends StatefulWidget {
 
 class DeleteRestaurantFormState extends State<DeleteRestaurantForm> {
   final _formKey = GlobalKey<FormState>();
+  String restaurantName = '';
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +31,24 @@ class DeleteRestaurantFormState extends State<DeleteRestaurantForm> {
                     }
                     return null;
                   },
-                  onSaved: (value) {},
+                  onSaved: (value) {
+                    restaurantName = value!;
+                  },
                 ),
                 const SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState?.save();
-                      // TODO: Implement delete restaurant logic
+                    final isValid = _formKey.currentState?.validate();
+                    if (!isValid!) {
+                      return;
                     }
+                    _formKey.currentState?.save();
+                    Provider.of<RestaurantProvider>(context, listen: false)
+                        .deleteRestaurant(restaurantName);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Restaurant deleted!')),
+                    );
+                    Navigator.of(context).pop();
                   },
                   child: const Text('Delete'),
                 ),

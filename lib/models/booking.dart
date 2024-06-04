@@ -2,7 +2,7 @@ import 'package:tablebooking_flutter/models/restaurant.dart';
 
 class Booking {
   final String id;
-  final String restaurantId;
+  final int restaurantId;
   final String restaurantName;
   final String restaurantImage;
   final DateTime bookingTime;
@@ -43,7 +43,7 @@ class Booking {
     return [
       Booking(
         id: '1',
-        restaurantId: '1',
+        restaurantId: 1,
         restaurantName: 'Restaurant 1',
         restaurantImage: Restaurant.example()[1].primaryImageURL,
         bookingTime: DateTime.now().add(const Duration(days: 1)),
@@ -51,7 +51,7 @@ class Booking {
       ),
       Booking(
         id: '2',
-        restaurantId: '2',
+        restaurantId: 2,
         restaurantName: 'Restaurant 2',
         restaurantImage: Restaurant.example()[2].primaryImageURL,
         bookingTime: DateTime.now().add(const Duration(days: 2)),

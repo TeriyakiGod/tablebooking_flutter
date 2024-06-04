@@ -59,9 +59,7 @@ class BookingInfo extends StatelessWidget {
                   elevation: 2,
                   label: const Text("Manage booking"),
                   avatar: const Icon(Icons.edit),
-                  onPressed: () {
-                    print("Manage booking");
-                  },
+                  onPressed: () {},
                 ),
               ],
             ),

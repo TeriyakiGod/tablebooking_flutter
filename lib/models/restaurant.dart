@@ -8,7 +8,6 @@ class Location {
 }
 
 class Restaurant {
-  String id;
   String name;
   String type;
   String description;
@@ -22,7 +21,6 @@ class Restaurant {
   DateTime closeTime;
 
   Restaurant({
-    required this.id,
     required this.name,
     required this.type,
     required this.description,
@@ -38,7 +36,6 @@ class Restaurant {
 
   factory Restaurant.fromJson(Map<String, dynamic> json) {
     return Restaurant(
-      id: json['id'] ?? '',
       name: json['name'] ?? '',
       type: json['type'] ?? '',
       description: json['description'] ?? '',
@@ -53,10 +50,25 @@ class Restaurant {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'type': type,
+      'description': description,
+      'location': location,
+      'phone': phone,
+      'primaryImageURL': primaryImageURL,
+      'secondaryImageURL': secondaryImageURL,
+      'rating': rating,
+      'price': price.index, // Convert Price enum to int
+      'openTime': openTime.toIso8601String(),
+      'closeTime': closeTime.toIso8601String(),
+    };
+  }
+
   static List<Restaurant> example() {
     return [
       Restaurant(
-        id: '1',
         name: 'Nienażarty',
         type: 'Hamburger',
         description: 'Najlepsze burgery w mieście',
@@ -70,7 +82,6 @@ class Restaurant {
         closeTime: DateTime.utc(0, 0, 0, 21, 0),
       ),
       Restaurant(
-        id: '2',
         name: 'Pizzeria Tre Pomodori',
         type: 'Pizza',
         description: 'Najlepsze pizze w mieście',
@@ -84,7 +95,6 @@ class Restaurant {
         closeTime: DateTime.utc(0, 0, 0, 22, 0),
       ),
       Restaurant(
-        id: '3',
         name: 'AMBASADA',
         type: 'Thai',
         description: 'Fajna kuchnia azjatycka',
@@ -95,6 +105,32 @@ class Restaurant {
         rating: 3.2,
         price: Price.low,
         openTime: DateTime.utc(0, 0, 0, 10, 0),
+        closeTime: DateTime.utc(0, 0, 0, 22, 0),
+      ),
+      Restaurant(
+        name: 'Kebab King',
+        type: 'Kebab',
+        description: 'Najlepszy kebab w mieście',
+        location: "ul. Wrocławska 1, 50-100 Wrocław",
+        phone: '1234567890',
+        primaryImageURL: 'https://picsum.photos/id/1000/1920/1080',
+        secondaryImageURL: 'https://picsum.photos/id/203/200/300',
+        rating: 4.8,
+        price: Price.low,
+        openTime: DateTime.utc(0, 0, 0, 10, 0),
+        closeTime: DateTime.utc(0, 0, 0, 22, 0),
+      ),
+      Restaurant(
+        name: 'Sushi Bar',
+        type: 'Sushi',
+        description: 'Najlepsze sushi w mieście',
+        location: "ul. Wrocławska 1, 50-100 Wrocław",
+        phone: '1234567890',
+        primaryImageURL: 'https://picsum.photos/id/1001/1920/1080',
+        secondaryImageURL: 'https://picsum.photos/id/203/200/300',
+        rating: 4.1,
+        price: Price.high,
+        openTime: DateTime.utc(0, 0, 0, 12, 0),
         closeTime: DateTime.utc(0, 0, 0, 22, 0),
       ),
     ];

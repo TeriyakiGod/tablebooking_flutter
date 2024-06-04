@@ -33,13 +33,15 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/restaurant/:restaurantId',
-      builder: (context, state) =>
-          RestaurantView(restaurantId: state.pathParameters['restaurantId']),
+      builder: (context, state) => RestaurantView(
+          restaurantId:
+              int.tryParse(state.pathParameters['restaurantId'] ?? '')),
     ),
     GoRoute(
       path: '/booking/:restaurantId',
-      builder: (context, state) =>
-          BookView(restaurantId: state.pathParameters['restaurantId']),
+      builder: (context, state) => BookView(
+          restaurantId:
+              int.tryParse(state.pathParameters['restaurantId'] ?? '')),
     ),
   ],
 );
