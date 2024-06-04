@@ -8,18 +8,18 @@ class Location {
 }
 
 class Restaurant {
-  final String id;
-  final String name;
-  final String type;
-  final String description;
-  final String location;
-  final String phone;
-  final String primaryImageURL;
-  final String secondaryImageURL;
-  final double rating;
-  final Price price;
-  final DateTime openTime;
-  final DateTime closeTime;
+  String id;
+  String name;
+  String type;
+  String description;
+  String location;
+  String phone;
+  String primaryImageURL;
+  String secondaryImageURL;
+  double rating;
+  Price price;
+  DateTime openTime;
+  DateTime closeTime;
 
   Restaurant({
     required this.id,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tablebooking_flutter/account/admin/admin_view.dart';
 import 'package:tablebooking_flutter/account/help_view.dart';
 import 'about_view.dart';
 import 'preferences_view.dart';
@@ -28,6 +29,17 @@ class AccountInfoView extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
+                ListTile(
+                    title: const Text('Admin'),
+                    leading: const Icon(Icons.admin_panel_settings),
+                    onTap: () {
+                      // Navigate to PreferencesView
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AdminView()),
+                      );
+                    }),
                 const ListTile(
                   title: Text('Favorites'),
                   leading: Icon(Icons.favorite),
