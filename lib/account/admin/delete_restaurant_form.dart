@@ -9,7 +9,6 @@ class DeleteRestaurantForm extends StatefulWidget {
 
 class DeleteRestaurantFormState extends State<DeleteRestaurantForm> {
   final _formKey = GlobalKey<FormState>();
-  String _restaurantName = '';
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +28,7 @@ class DeleteRestaurantFormState extends State<DeleteRestaurantForm> {
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    _restaurantName = value!;
-                  },
+                  onSaved: (value) {},
                 ),
                 const SizedBox(height: 16.0),
                 ElevatedButton(

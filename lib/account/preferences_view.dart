@@ -8,12 +8,8 @@ class PreferencesView extends StatefulWidget {
 }
 
 class _PreferencesViewState extends State<PreferencesView> {
-  ThemeMode _themeMode = ThemeMode.system;
-
   void _toggleTheme(ThemeMode themeMode) {
-    setState(() {
-      _themeMode = themeMode;
-    });
+    setState(() {});
   }
 
   //TODO: Add theme switching
