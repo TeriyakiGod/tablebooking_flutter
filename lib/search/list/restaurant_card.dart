@@ -26,7 +26,10 @@ class RestaurantCard extends StatelessWidget {
               height: 200,
             ),
           ),
-          RestaurantInfo(restaurant: restaurant)
+          RestaurantInfo(restaurant: restaurant),
+          const SizedBox(
+            height: 10,
+          )
         ],
       ),
     );

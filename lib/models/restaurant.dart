@@ -12,7 +12,7 @@ class Restaurant {
   final String name;
   final String type;
   final String description;
-  final Location location;
+  final String location;
   final String phone;
   final String primaryImageURL;
   final String secondaryImageURL;
@@ -38,20 +38,21 @@ class Restaurant {
 
   factory Restaurant.fromJson(Map<String, dynamic> json) {
     return Restaurant(
-      id: json['Id'],
-      name: json['Name'],
-      type: json['Type'],
-      description: json['Description'],
-      location: json['Location'],
-      phone: json['Phone'],
-      primaryImageURL: json['PrimaryImageURL'],
-      secondaryImageURL: json['SecondaryImageURL'],
-      rating: json['Rating'].toDouble(),
-      price: json['Price'],
-      openTime: DateTime.parse(json['OpenTime']),
-      closeTime: DateTime.parse(json['CloseTime']),
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      type: json['type'] ?? '',
+      description: json['description'] ?? '',
+      location: json['location'] ?? '',
+      phone: json['phone'] ?? '',
+      primaryImageURL: json['primaryImageURL'] ?? '',
+      secondaryImageURL: json['secondaryImageURL'] ?? '',
+      rating: (json['rating'] ?? 0).toDouble(),
+      price: Price.values[json['price'] ?? 0], // Convert int to Price enum
+      openTime: DateTime.parse(json['openTime'] ?? '1970-01-01T00:00:00Z'),
+      closeTime: DateTime.parse(json['closeTime'] ?? '1970-01-01T00:00:00Z'),
     );
   }
+
   static List<Restaurant> example() {
     return [
       Restaurant(
@@ -59,8 +60,7 @@ class Restaurant {
         name: 'Nienażarty',
         type: 'Hamburger',
         description: 'Najlepsze burgery w mieście',
-        location: Location(
-            longitiude: 16.205419735398273, latitude: 54.190559369010174),
+        location: "ul. Wrocławska 1, 50-100 Wrocław",
         phone: '1234567890',
         primaryImageURL: 'https://picsum.photos/id/10/1920/1080',
         secondaryImageURL: 'https://picsum.photos/id/238/200/300',
@@ -74,8 +74,7 @@ class Restaurant {
         name: 'Pizzeria Tre Pomodori',
         type: 'Pizza',
         description: 'Najlepsze pizze w mieście',
-        location: Location(
-            longitiude: 16.204880430605304, latitude: 54.196277506404655),
+        location: "ul. Wrocławska 1, 50-100 Wrocław",
         phone: '1234567890',
         primaryImageURL: 'https://picsum.photos/id/15/1920/1080',
         secondaryImageURL: 'https://picsum.photos/id/213/200/300',
@@ -89,8 +88,7 @@ class Restaurant {
         name: 'AMBASADA',
         type: 'Thai',
         description: 'Fajna kuchnia azjatycka',
-        location: Location(
-            longitiude: 16.19371022315012, latitude: 54.19974951669606),
+        location: "ul. Wrocławska 1, 50-100 Wrocław",
         phone: '1234567890',
         primaryImageURL: 'https://picsum.photos/id/999/1920/1080',
         secondaryImageURL: 'https://picsum.photos/id/203/200/300',

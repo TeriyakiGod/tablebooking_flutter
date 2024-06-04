@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tablebooking_flutter/models/search_options.dart';
 import 'package:tablebooking_flutter/search/list/restaurant_list.dart';
-import 'package:tablebooking_flutter/search/map/restaurant_map.dart';
 import 'package:tablebooking_flutter/search/tuning/tune.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -13,29 +14,30 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  late Future<List<Restaurant>> restaurants;
+  Future<List<Restaurant>> restaurants = fetchRestaurant();
   SearchOptions searchOptions = SearchOptions.defaultOptions();
 
-  @override
-  void initState() {
-    super.initState();
-    restaurants = fetchRestaurant();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   restaurants = fetchRestaurant();
+  // }
 
-  Future<List<Restaurant>> fetchRestaurant({String query = ''}) async {
-    // TODO: Replace with actual API call, integrate with searchOptions
-    // final response = await http.get(
-    //     Uri.parse('http://mybackend.com/restaurants'));
+  static Future<List<Restaurant>> fetchRestaurant({String query = ''}) async {
+    var url = Uri.parse(
+        'http://server.kacperochnik.eu:7012/Restaurant/GetAllRestaurants?restuarantName=$query');
+    final response =
+        await http.get(url, headers: {'Content-Type': 'application/json'});
 
-    // if (response.statusCode == 200) {
-    //   // If the server returns a 200 OK response, then parse the JSON.
-    //   return Restaurant.fromJson(jsonDecode(response.body));
-    // } else {
-    //   // If the server did not return a 200 OK response, then throw an exception.
-    //   throw Exception('Failed to load restaurant');
-    // }
-    await Future.delayed(const Duration(seconds: 1));
-    return Restaurant.example();
+    if (response.statusCode == 200) {
+      // If the server returns a 200 OK response, then parse the JSON.
+      return (json.decode(response.body) as List)
+          .map((data) => Restaurant.fromJson(data))
+          .toList();
+    } else {
+      // If the server did not return a 200 OK response, then throw an exception.
+      throw Exception('Failed to load restaurant');
+    }
   }
 
   void onSearchSubmitted(String value) {
@@ -93,30 +95,34 @@ class _SearchState extends State<Search> {
           body: TabBarView(
             physics: const NeverScrollableScrollPhysics(),
             children: <Widget>[
-              FutureBuilder<List<Restaurant>>(
-                future: restaurants,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    return RestaurantList(restaurants: snapshot.data ?? []);
-                  }
-                },
-              ),
-              FutureBuilder<List<Restaurant>>(
-                future: restaurants,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    return RestaurantMap(restaurants: snapshot.data ?? []);
-                  }
-                },
-              ),
+              FutureBuilder(
+                  // pass the list (postsFuture)
+                  future: restaurants,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasData) {
+                      final finalRestaurants = snapshot.data!;
+                      return RestaurantList(restaurants: finalRestaurants);
+                    } else {
+                      // we did not recieve any data, maybe show error or no data available
+                      return const Center(child: Text('No data available'));
+                    }
+                  }),
+              // FutureBuilder<List<Restaurant>>(
+              //   future: restaurants,
+              //   builder: (context, snapshot) {
+              //     if (snapshot.connectionState == ConnectionState.waiting) {
+              //       return const Center(child: CircularProgressIndicator());
+              //     } else if (snapshot.hasError) {
+              //       return Text('Error: ${snapshot.error}');
+              //     } else {
+              //       return RestaurantMap(restaurants: snapshot.data ?? []);
+              //     }
+              //   },
+              // ),
+              // TODO: Replace with RestaurantMap
+              const Center(child: Text('Map view coming soon!')),
             ],
           ),
         ));

@@ -38,8 +38,8 @@ class _RestaurantMapState extends State<RestaurantMap> {
     for (var restaurant in widget.restaurants) {
       markers.add(Marker(
         markerId: MarkerId(restaurant.name),
-        position: LatLng(
-            restaurant.location.latitude, restaurant.location.longitiude),
+        // position: LatLng(
+        //     restaurant.location.latitude, restaurant.location.longitiude),
         infoWindow: InfoWindow(
             title: restaurant.name,
             snippet: restaurant.type,
