@@ -150,7 +150,7 @@ class BookViewState extends State<BookView> {
                                     booking.dateTime!.day,
                                     pickedTime.hour,
                                     pickedTime.minute);
-
+                                // TODO: Rebuild to not use buildcontext
                                 if (selectedDateTime
                                         .difference(currentTime)
                                         .inMinutes <

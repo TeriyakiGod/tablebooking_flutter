@@ -9,10 +9,10 @@ class RestaurantMap extends StatefulWidget {
   const RestaurantMap({super.key, required this.restaurants});
 
   @override
-  _RestaurantMapState createState() => _RestaurantMapState();
+  RestaurantMapState createState() => RestaurantMapState();
 }
 
-class _RestaurantMapState extends State<RestaurantMap> {
+class RestaurantMapState extends State<RestaurantMap> {
   late GoogleMapController mapController;
   late Position currentPosition = Position(
     timestamp: DateTime.now(),

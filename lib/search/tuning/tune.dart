@@ -9,10 +9,10 @@ class Tune extends StatefulWidget {
   const Tune({super.key, required this.searchOptions});
 
   @override
-  _TuneState createState() => _TuneState();
+  TuneState createState() => TuneState();
 }
 
-class _TuneState extends State<Tune> {
+class TuneState extends State<Tune> {
   late SearchOptions searchOptions;
   late SearchOptions initialState;
 

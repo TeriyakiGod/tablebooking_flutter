@@ -8,10 +8,10 @@ class BookResultView extends StatefulWidget {
   const BookResultView({super.key, required this.bookingRequest});
 
   @override
-  _BookResultViewState createState() => _BookResultViewState();
+  BookResultViewState createState() => BookResultViewState();
 }
 
-class _BookResultViewState extends State<BookResultView> {
+class BookResultViewState extends State<BookResultView> {
   late Future<Booking> bookingResponse;
 
   @override

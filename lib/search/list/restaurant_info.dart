@@ -51,8 +51,9 @@ class RestaurantInfo extends StatelessWidget {
                   children: [
                     IconButton(
                       icon: const Icon(Icons.favorite),
-                      //TODO: Implement favorite
-                      onPressed: () => print("Favorite"),
+                      onPressed: () {
+                      throw UnimplementedError("Favorite feature not implemented");
+                      },
                     ),
                     IconButton(
                         onPressed: () {

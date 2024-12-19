@@ -7,10 +7,10 @@ import 'package:provider/provider.dart';
 class BookingsView extends StatefulWidget {
   const BookingsView({super.key});
   @override
-  _BookingsViewState createState() => _BookingsViewState();
+  BookingsViewState createState() => BookingsViewState();
 }
 
-class _BookingsViewState extends State<BookingsView> {
+class BookingsViewState extends State<BookingsView> {
   late Future<List<Booking>> bookings;
 
   @override

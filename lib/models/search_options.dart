@@ -11,8 +11,6 @@ extension PriceExtension on Price {
         return '\$\$';
       case Price.high:
         return '\$\$\$';
-      default:
-        return 'Unknown';
     }
   }
 }

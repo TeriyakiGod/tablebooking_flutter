@@ -4,10 +4,10 @@ class PreferencesView extends StatefulWidget {
   const PreferencesView({super.key});
 
   @override
-  _PreferencesViewState createState() => _PreferencesViewState();
+  PreferencesViewState createState() => PreferencesViewState();
 }
 
-class _PreferencesViewState extends State<PreferencesView> {
+class PreferencesViewState extends State<PreferencesView> {
   void _toggleTheme(ThemeMode themeMode) {
     setState(() {});
   }

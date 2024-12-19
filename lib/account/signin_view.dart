@@ -8,10 +8,10 @@ class SignInView extends StatefulWidget {
   const SignInView({super.key});
 
   @override
-  _SignInViewState createState() => _SignInViewState();
+  SignInViewState createState() => SignInViewState();
 }
 
-class _SignInViewState extends State<SignInView> {
+class SignInViewState extends State<SignInView> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 

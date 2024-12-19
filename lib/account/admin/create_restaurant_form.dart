@@ -22,7 +22,7 @@ class CreateRestaurantFormState extends State<CreateRestaurantForm> {
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     ).then((DateTime? date) {
-      if (date != null) {
+      if (date != null && mounted) {
         showTimePicker(
           context: context,
           initialTime: TimeOfDay.fromDateTime(restaurant.openTime),
@@ -50,7 +50,7 @@ class CreateRestaurantFormState extends State<CreateRestaurantForm> {
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     ).then((DateTime? date) {
-      if (date != null) {
+      if (date != null && mounted) {
         showTimePicker(
           context: context,
           initialTime: TimeOfDay.fromDateTime(restaurant.closeTime),
