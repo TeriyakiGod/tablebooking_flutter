@@ -5,6 +5,7 @@ import 'package:tablebooking_flutter/models/restaurant.dart';
 import 'package:tablebooking_flutter/restaurant/book/number_picker.dart';
 import 'package:tablebooking_flutter/search/list/restaurant_info.dart';
 import 'package:tablebooking_flutter/restaurant/book/book_result_view.dart';
+import 'package:intl/intl.dart';
 
 class BookView extends StatefulWidget {
   final Restaurant? restaurant;
@@ -16,17 +17,16 @@ class BookView extends StatefulWidget {
           'You must provide either a restaurant or a restaurantId');
     }
   }
+
   @override
   BookViewState createState() => BookViewState();
 }
 
 class BookViewState extends State<BookView> {
   late Future<Restaurant> restaurant;
-  final TextEditingController dateController = TextEditingController();
-  final TextEditingController timeController = TextEditingController();
   bool isDatePicked = false;
   bool isTimePicked = false;
-  bool book = false;
+  bool isBookingCompleted = false;
 
   BookingRequest booking = BookingRequest(
     dateTime: null,
@@ -41,21 +41,197 @@ class BookViewState extends State<BookView> {
         : fetchRestaurant();
   }
 
-  //TODO: Implement fetching
-  //TODO: Let only choose time in 30 minutes intervals
   Future<Restaurant> fetchRestaurant() async {
-    // final response = await http.get(
-    //     Uri.parse('http://mybackend.com/restaurants/${widget.restaurantId}'));
-
-    // if (response.statusCode == 200) {
-    //   // If the server returns a 200 OK response, then parse the JSON.
-    //   return Restaurant.fromJson(jsonDecode(response.body));
-    // } else {
-    //   // If the server did not return a 200 OK response, then throw an exception.
-    //   throw Exception('Failed to load restaurant');
-    // }
+    // Replace with actual fetching logic
     return Restaurant.example()
-        .firstWhere((element) => element.hashCode == widget.restaurantId);
+        .firstWhere((r) => r.hashCode == widget.restaurantId);
+  }
+
+  Widget buildRestaurantInfo(Restaurant restaurant) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Image.network(
+          restaurant.primaryImageURL,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: 200,
+        ),
+        RestaurantInfo(restaurant: restaurant),
+      ],
+    );
+  }
+
+  Widget buildDateSelector(
+      BuildContext context, DateTime firstDate, DateTime lastDate) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Text(
+              DateFormat('dd/MM/yyyy').format(booking.dateTime!),
+              style: const TextStyle(fontSize: 16),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.calendar_today),
+            onPressed: () async {
+              final DateTime? pickedDate = await showDatePicker(
+                context: context,
+                initialDate: booking.dateTime ?? firstDate,
+                firstDate: firstDate,
+                lastDate: lastDate,
+              );
+              if (pickedDate != null) {
+                setState(() {
+                  booking.dateTime = pickedDate;
+                  isDatePicked = true;
+                });
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildTimeSelector(Restaurant restaurant) {
+    final DateTime now = DateTime.now();
+    final DateTime startTime = DateTime(
+      booking.dateTime!.year,
+      booking.dateTime!.month,
+      booking.dateTime!.day,
+      restaurant.openTime.hour,
+      restaurant.openTime.minute,
+    );
+    final DateTime endTime = DateTime(
+      booking.dateTime!.year,
+      booking.dateTime!.month,
+      booking.dateTime!.day,
+      restaurant.closeTime.hour - 2,
+      restaurant.closeTime.minute,
+    );
+
+    // Define disabled times
+    final List<DateTime> disabledTimes = [
+      startTime
+          .add(const Duration(minutes: 30)), // Example: Disable the second slot
+      startTime
+          .add(const Duration(minutes: 90)), // Example: Disable the fourth slot
+    ];
+
+    List<DateTime> generateTimeSlots() {
+      List<DateTime> slots = [];
+      DateTime slot = startTime;
+      while (slot.isBefore(endTime)) {
+        slots.add(slot);
+        slot = slot.add(const Duration(minutes: 30));
+      }
+      return slots;
+    }
+
+    final timeSlots = generateTimeSlots();
+
+    return SizedBox(
+      height: 50,
+      child: ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 6),
+        scrollDirection: Axis.horizontal,
+        itemCount: timeSlots.length,
+        itemBuilder: (context, index) {
+          final slot = timeSlots[index];
+          final bool isDisabled =
+              slot.isBefore(now.add(const Duration(hours: 2))) ||
+                  disabledTimes.contains(slot);
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: ChoiceChip(
+              label: Text(
+                "${slot.hour.toString().padLeft(2, '0')}:${slot.minute.toString().padLeft(2, '0')}",
+              ),
+              selected: booking.dateTime?.hour == slot.hour &&
+                  booking.dateTime?.minute == slot.minute,
+              onSelected: isDisabled
+                  ? null
+                  : (selected) {
+                      if (selected) {
+                        setState(() {
+                          booking.dateTime = slot;
+                          isTimePicked = true;
+                        });
+                      }
+                    },
+              selectedColor: Theme.of(context).primaryColorDark,
+              disabledColor: Theme.of(context).disabledColor,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildGuestSelector() {
+    return Padding(
+        padding: const EdgeInsets.only(left: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text("Guests:", style: TextStyle(fontSize: 16)),
+            NumberPicker(
+              limit: 10,
+              value: booking.guestCount,
+              onChanged: (value) => setState(() => booking.guestCount = value),
+            ),
+          ],
+        ));
+  }
+
+  Widget buildBookingForm(BuildContext context, Restaurant restaurant,
+      DateTime firstDate, DateTime lastDate) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Select date and time:",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+        buildDateSelector(context, firstDate, lastDate),
+        buildTimeSelector(restaurant),
+        buildGuestSelector(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          child: SizedBox(
+            child: ElevatedButton(
+              onPressed: handleBooking,
+              child: const Text("Book a table"),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void handleBooking() {
+    if (!isDatePicked || !isTimePicked) {
+      showSnackBar(context, 'Please select both date and time.');
+    } else {
+      setState(() {
+        isBookingCompleted = true;
+      });
+    }
+  }
+
+  void showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -63,169 +239,42 @@ class BookViewState extends State<BookView> {
     return FutureBuilder<Restaurant>(
       future: restaurant,
       builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+
         if (snapshot.hasData) {
-          DateTime now = DateTime.now();
-          DateTime firstDate = (now.hour >= snapshot.data!.closeTime.hour - 2)
+          final restaurant = snapshot.data!;
+          final now = DateTime.now();
+          final firstDate = now.hour >= restaurant.closeTime.hour - 2
               ? now.add(const Duration(days: 1))
               : now;
+          final lastDate = firstDate.add(const Duration(days: 90));
           booking.dateTime ??= firstDate;
-          DateTime lastDate = firstDate.add(const Duration(days: 90));
+
           return Scaffold(
             appBar: AppBar(
               title: const Text("Book a table"),
-              actions: const [
-                BookingHelp(),
-              ],
+              actions: const [BookingHelp()],
             ),
             body: ListView(
-              children: <Widget>[
-                Image.network(
-                  snapshot.data!.primaryImageURL,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: 200,
-                ),
-                RestaurantInfo(restaurant: snapshot.data!),
+              children: [
+                buildRestaurantInfo(restaurant),
                 const Divider(),
-                if (book)
-                  Center(
-                    child: BookResultView(
-                      bookingRequest: booking,
-                    ),
-                  )
+                if (isBookingCompleted)
+                  Center(child: BookResultView(bookingRequest: booking))
                 else
-                  //TODO: Move the scrollView to the top
-                  Container(
-                    padding:
-                        const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        TextFormField(
-                          readOnly: true,
-                          controller: dateController,
-                          decoration: const InputDecoration(
-                            labelText: 'Select Date',
-                          ),
-                          onTap: () async {
-                            final DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: booking.dateTime,
-                              firstDate: firstDate,
-                              lastDate: lastDate,
-                            );
-                            if (pickedDate != null &&
-                                pickedDate != booking.dateTime) {
-                              setState(() {
-                                booking.dateTime = pickedDate;
-                                dateController.text = booking.dateTime
-                                    .toString()
-                                    .substring(0, 10);
-                                isDatePicked = true;
-                              });
-                            }
-                          },
-                        ),
-                        TextFormField(
-                            enabled: isDatePicked,
-                            readOnly: true,
-                            controller: timeController,
-                            decoration: const InputDecoration(
-                              labelText: 'Select Time',
-                            ),
-                            onTap: () async {
-                              final TimeOfDay? pickedTime =
-                                  await showTimePicker(
-                                      context: context,
-                                      initialTime: TimeOfDay(
-                                          hour: booking.dateTime!.hour,
-                                          minute: booking.dateTime!.minute),
-                                      initialEntryMode:
-                                          TimePickerEntryMode.input);
-                              if (pickedTime != null) {
-                                final DateTime currentTime = DateTime.now();
-                                final DateTime selectedDateTime = DateTime(
-                                    booking.dateTime!.year,
-                                    booking.dateTime!.month,
-                                    booking.dateTime!.day,
-                                    pickedTime.hour,
-                                    pickedTime.minute);
-                                // TODO: Rebuild to not use buildcontext
-                                if (selectedDateTime
-                                        .difference(currentTime)
-                                        .inMinutes <
-                                    120) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          'Selected time must be at least 2 hours from now.'),
-                                    ),
-                                  );
-                                } else if (selectedDateTime.hour <
-                                        snapshot.data!.openTime.hour ||
-                                    selectedDateTime.hour >
-                                        snapshot.data!.closeTime.hour - 2) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          'Selected time must be within the restaurant\'s working hours. And at least 2 hours from closing.'),
-                                    ),
-                                  );
-                                } else {
-                                  setState(() {
-                                    booking.dateTime = selectedDateTime;
-                                    isTimePicked = true;
-                                    timeController.text =
-                                        pickedTime.format(context);
-                                  });
-                                }
-                              }
-                            }),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Guests: ",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                )),
-                            NumberPicker(
-                              limit: 10,
-                              value: booking.guestCount,
-                              onChanged: (value) =>
-                                  setState(() => booking.guestCount = value),
-                            ),
-                          ],
-                        ),
-                        FilledButton(
-                          onPressed: () {
-                            // Validate your booking here
-                            if (!isDatePicked || !isTimePicked) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content:
-                                      Text('Please select a date and time.'),
-                                ),
-                              );
-                              return;
-                            } else {
-                              setState(() {
-                                book = true;
-                              });
-                            }
-                          },
-                          child: const Text('Book'),
-                        ),
-                      ],
-                    ),
-                  )
+                  buildBookingForm(context, restaurant, firstDate, lastDate),
               ],
             ),
           );
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
         }
-        // By default, show a loading spinner.
-        return const CircularProgressIndicator();
+
+        return const Center(child: Text('Unexpected state.'));
       },
     );
   }
