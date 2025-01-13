@@ -21,7 +21,6 @@ class RestaurantProvider extends ChangeNotifier {
   }
 
   Future<void> fetchAndSetRestaurants() async {
-    final baseUrl = 'https://tablebooking-api.kacperochnik.eu';
     final response = await http.get(Uri.parse("$baseUrl/Restaurant/GetAllRestaurants"));
 
     if (response.statusCode == 200) {
