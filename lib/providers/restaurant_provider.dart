@@ -2,10 +2,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RestaurantProvider extends ChangeNotifier {
-  List<Restaurant> _restaurants = [];
+  static const bool isProduction = bool.fromEnvironment('dart.vm.product');
 
+  static String get baseUrl => isProduction
+    ? dotenv.env['BASE_URL_PROD'] ?? 'https://your-api-server.com'
+    : dotenv.env['BASE_URL_DEV'] ?? 'http://localhost:3000';
+      
+  List<Restaurant> _restaurants = [];
   List<Restaurant> get restaurants => _restaurants;
 
   //fetch after object creation
@@ -32,8 +38,7 @@ class RestaurantProvider extends ChangeNotifier {
       _restaurants = list.map((e) => Restaurant.fromJson(e)).toList();
       if (query != null) {
         _restaurants = _restaurants
-            .where((element) =>
-                element.name.toLowerCase().contains(query.toLowerCase()))
+            .where((element) => element.name.toLowerCase().contains(query.toLowerCase()))
             .toList();
       }
     } else {
@@ -41,8 +46,7 @@ class RestaurantProvider extends ChangeNotifier {
       localStorage.setItem('restaurants', jsonEncode(_restaurants));
       if (query != null) {
         _restaurants = _restaurants
-            .where((element) =>
-                element.name.toLowerCase().contains(query.toLowerCase()))
+            .where((element) => element.name.toLowerCase().contains(query.toLowerCase()))
             .toList();
       }
     }
