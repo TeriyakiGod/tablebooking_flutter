@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 
 class RestaurantProvider extends ChangeNotifier {
   static const bool isProduction = bool.fromEnvironment('dart.vm.product');
 
   static String get baseUrl => isProduction
-    ? dotenv.env['BASE_URL_PROD'] ?? 'https://your-api-server.com'
-    : dotenv.env['BASE_URL_DEV'] ?? 'http://localhost:3000';
+    ? dotenv.env['BASE_URL_PROD'] ?? ""
+    : dotenv.env['BASE_URL_DEV'] ?? "";
       
   List<Restaurant> _restaurants = [];
   List<Restaurant> get restaurants => _restaurants;
@@ -19,15 +20,17 @@ class RestaurantProvider extends ChangeNotifier {
     fetchAndSetRestaurants();
   }
 
-  void fetchAndSetRestaurants() {
-    var storedRestaurants = localStorage.getItem('restaurants');
-    if (storedRestaurants != null) {
-      List<dynamic> list = jsonDecode(storedRestaurants);
+  Future<void> fetchAndSetRestaurants() async {
+    final baseUrl = 'https://tablebooking-api.kacperochnik.eu';
+    final response = await http.get(Uri.parse("$baseUrl/Restaurant/GetAllRestaurants"));
+
+    if (response.statusCode == 200) {
+      List<dynamic> list = jsonDecode(response.body);
       _restaurants = list.map((e) => Restaurant.fromJson(e)).toList();
     } else {
-      _restaurants = Restaurant.example();
-      localStorage.setItem('restaurants', jsonEncode(_restaurants));
+      throw Exception('Failed to load data: ${response.statusCode}');
     }
+
     notifyListeners();
   }
 
