@@ -7,7 +7,7 @@
         {
             "name": "tablebooking_flutter",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
         },
         {
             "name": "tablebooking_flutter (profile mode)",

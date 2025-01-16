@@ -7,9 +7,12 @@ import 'package:localstorage/localstorage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
+  await dotenv.load();
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
   await initLocalStorage();
+  final authProvider = AuthProvider();
+  await authProvider.autoLogin();
   runApp(
     MultiProvider(
       providers: [

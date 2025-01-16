@@ -43,8 +43,8 @@ class BookingsViewState extends State<BookingsView> {
       ),
       body: Consumer<AuthProvider>(
         builder: (context, authProvider, child) {
-          return FutureBuilder<bool>(
-            future: authProvider.isAuthenticated,
+          return FutureBuilder<void>(
+            future: authProvider.fetchUserInfo(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator(); // Show loading spinner while waiting for auth status
@@ -52,23 +52,24 @@ class BookingsViewState extends State<BookingsView> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  return snapshot.data!
-                      ? FutureBuilder<List<Booking>>(
-                          future: bookings,
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const Center(
-                                  child: CircularProgressIndicator());
-                            } else if (snapshot.hasError) {
-                              return Center(child: Text('${snapshot.error}'));
-                            } else {
-                              return BookingsList(bookings: snapshot.data!);
-                            }
-                          },
-                        )
-                      : const Center(
-                          child: Text('Please sign in to view your bookings'));
+                  if (authProvider.isLoggedIn) {
+                    return FutureBuilder<List<Booking>>(
+                        future: bookings,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(child: Text('${snapshot.error}'));
+                          } else {
+                            return BookingsList(bookings: snapshot.data!);
+                          }
+                        });
+                  } else {
+                    return const Center(
+                        child: Text('Please sign in to view your bookings'));
+                  }
                 }
               }
             },
