@@ -77,7 +77,7 @@ class SignInViewState extends State<SignInView> {
                             onPressed: () async {
                               await Provider.of<AuthProvider>(context,
                                       listen: false)
-                                  .logIn(
+                                  .login(
                                 _emailController.text,
                                 _passwordController.text,
                               );

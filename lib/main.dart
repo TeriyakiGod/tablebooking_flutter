@@ -4,10 +4,14 @@ import 'package:tablebooking_flutter/providers/restaurant_provider.dart';
 import 'router.dart';
 import 'providers/auth_provider.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
+  await dotenv.load();
   WidgetsFlutterBinding.ensureInitialized();
   await initLocalStorage();
+  final authProvider = AuthProvider();
+  await authProvider.autoLogin();
   runApp(
     MultiProvider(
       providers: [

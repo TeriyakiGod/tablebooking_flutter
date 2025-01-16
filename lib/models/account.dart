@@ -1,7 +1,7 @@
 class Account {
   final String id;
-  final String name;
+  final String username;
   final String email;
 
-  Account({required this.id, required this.name, required this.email});
+  Account({required this.id, required this.username, required this.email});
 }
