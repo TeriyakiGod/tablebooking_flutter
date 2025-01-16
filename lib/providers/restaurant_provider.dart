@@ -6,11 +6,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class RestaurantProvider extends ChangeNotifier {
-  static const bool isProduction = bool.fromEnvironment('dart.vm.product');
 
-  static String get baseUrl => isProduction
-    ? dotenv.env['BASE_URL_PROD'] ?? ""
-    : dotenv.env['BASE_URL_DEV'] ?? "";
+  static String get baseUrl => dotenv.env['API_URL']??'http://localhost:8080';
       
   List<Restaurant> _restaurants = [];
   List<Restaurant> get restaurants => _restaurants;
