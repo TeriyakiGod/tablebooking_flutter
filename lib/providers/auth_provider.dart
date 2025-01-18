@@ -5,11 +5,10 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:tablebooking_flutter/models/account.dart';
 
-
 class AuthProvider with ChangeNotifier {
   String? _token;
   bool _isLoading = false;
-  Account? _account; // Use the Account class
+  Account? _account;
 
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
@@ -17,40 +16,42 @@ class AuthProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   bool get isAuthenticated => _token != null;
   bool get isLoggedIn => isAuthenticated && _account != null;
-  Account? get account => _account; // Return the Account object
+  Account? get account => _account;
 
-  Future<void> login(String username, String password) async {
+  Future<void> login(
+      String username, String password) async {
     _isLoading = true;
     notifyListeners();
 
     final url = Uri.parse('${dotenv.env['API_URL']!}/User/login');
-    final response = await http.post(
-      url,
-      body: json.encode({
-        'username': username,
-        'password': password,
-      }),
-      headers: {'Content-Type': 'application/json'},
-    );
+    try {
+      final response = await http.post(
+        url,
+        body: json.encode({
+          'username': username,
+          'password': password,
+        }),
+        headers: {'Content-Type': 'application/json'},
+      );
 
-    _isLoading = false;
-    notifyListeners();
-
-    if (response.statusCode == 200) {
-      final responseData = json.decode(response.body);
-      _token = responseData['token'];
-      await _saveToken(_token!);
-      await fetchUserInfo(); // Fetch user info after login
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        _token = responseData['token'];
+        await _saveToken(_token!);
+        await fetchUserInfo();
+      }
+    } catch (e) {
+      rethrow;
+    } finally {
+      _isLoading = false;
       notifyListeners();
-    } else {
-      throw Exception('Failed to login');
     }
   }
 
   Future<void> fetchUserInfo() async {
-    if (!isAuthenticated) return; // Do nothing if not authenticated
+    if (!isAuthenticated) return;
 
-    final url = Uri.parse('${dotenv.env['API_URL']!}/User/me');
+    final url = Uri.parse('${dotenv.env['API_URL']!}/User');
     final response = await http.get(
       url,
       headers: {
@@ -61,10 +62,9 @@ class AuthProvider with ChangeNotifier {
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       _account = Account(
-        id: responseData['id'],
         username: responseData['username'],
         email: responseData['email'],
-      ); // Create an Account object
+      );
       notifyListeners();
     } else {
       throw Exception('Failed to fetch user info');
@@ -79,7 +79,7 @@ class AuthProvider with ChangeNotifier {
     final token = await _secureStorage.read(key: 'auth_token');
     if (token != null) {
       _token = token;
-      await fetchUserInfo(); // Fetch user info on auto-login
+      await fetchUserInfo();
       notifyListeners();
     }
   }

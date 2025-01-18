@@ -17,6 +17,14 @@ class SearchState extends State<Search> {
   TextEditingController searchController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<RestaurantProvider>(context, listen: false).fetchRestaurants();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: 0,
@@ -49,7 +57,7 @@ class SearchState extends State<Search> {
             hintText: 'Search for restaurants',
             onSubmitted: (value) {
               Provider.of<RestaurantProvider>(context, listen: false)
-                  .fetchAndSetRestaurantsWithQuery(query: value);
+                  .fetchRestaurantsWithQuery(query: value);
             },
           ),
           bottom: const TabBar(

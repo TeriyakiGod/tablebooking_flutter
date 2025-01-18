@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tablebooking_flutter/models/booking.dart';
-import 'package:tablebooking_flutter/restaurant/restaurant_view.dart';
 
 class BookingInfo extends StatelessWidget {
   final Booking booking;
@@ -16,8 +15,9 @@ class BookingInfo extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // TODO: Implement
             Text(
-              booking.restaurantName,
+              "Not implemented",
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -32,26 +32,28 @@ class BookingInfo extends StatelessWidget {
                 Chip(
                     avatar: const Icon(Icons.access_time),
                     label:
-                        Text(booking.bookingTime.toString().substring(11, 16))),
+                        Text(booking.date.toString().substring(11, 16))),
                 Chip(
                     avatar: const Icon(Icons.calendar_today),
                     label:
-                        Text(booking.bookingTime.toString().substring(0, 10))),
+                        Text(booking.date.toString().substring(0, 10))),
                 Chip(
-                    avatar: (booking.isConfirmed
+                    avatar: (true
                         ? const Icon(Icons.check)
                         : const Icon(Icons.pending_actions)),
-                    label: Text(booking.isConfirmed ? "Confirmed" : "Pending")),
+                        // TODO: Implement
+                    label: Text("Not implemented")),
                 ActionChip(
                     elevation: 1,
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RestaurantView(
-                              restaurantId: booking.restaurantId),
-                        ),
-                      );
+                      // TODO: Implement
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => RestaurantView(
+                      //         restaurantId: booking.),
+                      //   ),
+                      // );
                     },
                     label: const Text("Restaurant details"),
                     avatar: const Icon(Icons.restaurant)),

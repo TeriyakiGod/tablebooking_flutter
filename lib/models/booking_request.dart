@@ -10,7 +10,7 @@ class BookingRequest {
   Map<String, dynamic> toJson() {
     return {
       'dateTime': dateTime!.toIso8601String(),
-      'guestCount': guestCount,
+      'amountOfPeople': guestCount,
     };
   }
 }

@@ -1,61 +1,51 @@
-import 'package:tablebooking_flutter/models/restaurant.dart';
-
 class Booking {
   final String id;
-  final int restaurantId;
-  final String restaurantName;
-  final String restaurantImage;
-  final DateTime bookingTime;
-  final bool isConfirmed;
+  final String appUserId;
+  final String tableId;
+  final DateTime date;
+  final int durationInMinutes;
+  final int amountOfPeople;
 
   Booking({
     required this.id,
-    required this.restaurantId,
-    required this.restaurantName,
-    required this.restaurantImage,
-    required this.bookingTime,
-    required this.isConfirmed,
+    required this.appUserId,
+    required this.tableId,
+    required this.date,
+    required this.durationInMinutes,
+    required this.amountOfPeople,
   });
 
   factory Booking.fromJson(Map<String, dynamic> json) {
     return Booking(
       id: json['id'],
-      restaurantId: json['restaurantId'],
-      restaurantName: json['restaurantName'],
-      restaurantImage: json['restaurantImage'],
-      bookingTime: DateTime.parse(json['bookingTime']),
-      isConfirmed: json['isConfirmed'],
+      appUserId: json['appUserId'],
+      tableId: json['tableId'],
+      date: DateTime.parse(json['date']),
+      durationInMinutes: json['durationInMinutes'],
+      amountOfPeople: json['amountOfPeople'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'restaurantId': restaurantId,
-      'restaurantName': restaurantName,
-      'restaurantImage': restaurantImage,
-      'bookingTime': bookingTime.toIso8601String(),
-      'isConfirmed': isConfirmed,
+      'appUserId': appUserId,
+      'tableId': tableId,
+      'date': date.toIso8601String(),
+      'durationInMinutes': durationInMinutes,
+      'amountOfPeople': amountOfPeople,
     };
   }
 
   static List<Booking> example() {
     return [
       Booking(
-        id: '1',
-        restaurantId: 1,
-        restaurantName: 'Restaurant 1',
-        restaurantImage: Restaurant.example()[1].primaryImageURL,
-        bookingTime: DateTime.now().add(const Duration(days: 1)),
-        isConfirmed: true,
-      ),
-      Booking(
-        id: '2',
-        restaurantId: 2,
-        restaurantName: 'Restaurant 2',
-        restaurantImage: Restaurant.example()[2].primaryImageURL,
-        bookingTime: DateTime.now().add(const Duration(days: 2)),
-        isConfirmed: false,
+        id: '019479e2-0380-7cc0-acce-7343acde730a',
+        appUserId: '019478e9-605a-7c24-8fbd-4ca0618ca8c2',
+        tableId: '123e1a20-6801-4a5e-a327-ecc5cb2bd906',
+        date: DateTime.parse('2025-01-18T14:47:08.475Z'),
+        durationInMinutes: 120,
+        amountOfPeople: 1,
       ),
     ];
   }

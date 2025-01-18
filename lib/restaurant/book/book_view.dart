@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tablebooking_flutter/restaurant/book/book_help.dart';
 import 'package:tablebooking_flutter/models/booking_request.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
@@ -7,9 +8,11 @@ import 'package:tablebooking_flutter/search/list/restaurant_info.dart';
 import 'package:tablebooking_flutter/restaurant/book/book_result_view.dart';
 import 'package:intl/intl.dart';
 
+import '../../providers/restaurant_provider.dart';
+
 class BookView extends StatefulWidget {
   final Restaurant? restaurant;
-  final int? restaurantId;
+  final String? restaurantId;
 
   BookView({super.key, this.restaurant, this.restaurantId}) {
     if (restaurant == null && restaurantId == null) {
@@ -42,9 +45,9 @@ class BookViewState extends State<BookView> {
   }
 
   Future<Restaurant> fetchRestaurant() async {
-    // Replace with actual fetching logic
-    return Restaurant.example()
-        .firstWhere((r) => r.hashCode == widget.restaurantId);
+    final restaurantProvider =
+        Provider.of<RestaurantProvider>(context, listen: false);
+    return await restaurantProvider.fetchRestaurantById(widget.restaurantId!);
   }
 
   Widget buildRestaurantInfo(Restaurant restaurant) {

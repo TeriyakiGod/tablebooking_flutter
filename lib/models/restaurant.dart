@@ -8,6 +8,7 @@ class Location {
 }
 
 class Restaurant {
+  String id;
   String name;
   String type;
   String description;
@@ -21,6 +22,7 @@ class Restaurant {
   DateTime closeTime;
 
   Restaurant({
+    required this.id,
     required this.name,
     required this.type,
     required this.description,
@@ -36,15 +38,16 @@ class Restaurant {
 
   factory Restaurant.fromJson(Map<String, dynamic> json) {
     return Restaurant(
+      id: json['id'] ?? '',
       name: json['name'] ?? '',
       type: json['type'] ?? '',
       description: json['description'] ?? '',
       location: json['location'] ?? '',
       phone: json['phone'] ?? '',
-      primaryImageURL: json['primaryImageURL'] ?? '',
-      secondaryImageURL: json['secondaryImageURL'] ?? '',
+      primaryImageURL: json['primaryImageUrl'] ?? '',
+      secondaryImageURL: json['secondaryImageUrl'] ?? '',
       rating: (json['rating'] ?? 0).toDouble(),
-      price: Price.values[json['price'] ?? 0], // Convert int to Price enum
+      price: Price.values[json['price']-1 ?? 0],
       openTime: DateTime.parse(json['openTime'] ?? '1970-01-01T00:00:00Z'),
       closeTime: DateTime.parse(json['closeTime'] ?? '1970-01-01T00:00:00Z'),
     );
@@ -60,7 +63,7 @@ class Restaurant {
       'primaryImageURL': primaryImageURL,
       'secondaryImageURL': secondaryImageURL,
       'rating': rating,
-      'price': price.index, // Convert Price enum to int
+      'price': price.index,
       'openTime': openTime.toIso8601String(),
       'closeTime': closeTime.toIso8601String(),
     };
@@ -69,6 +72,7 @@ class Restaurant {
   static List<Restaurant> example() {
     return [
       Restaurant(
+        id: '1',
         name: 'Nienażarty',
         type: 'Hamburger',
         description: 'Najlepsze burgery w mieście',
@@ -82,6 +86,7 @@ class Restaurant {
         closeTime: DateTime.utc(0, 0, 0, 21, 0),
       ),
       Restaurant(
+        id: '2',
         name: 'Pizzeria Tre Pomodori',
         type: 'Pizza',
         description: 'Najlepsze pizze w mieście',
@@ -95,6 +100,7 @@ class Restaurant {
         closeTime: DateTime.utc(0, 0, 0, 22, 0),
       ),
       Restaurant(
+        id: '3',
         name: 'AMBASADA',
         type: 'Thai',
         description: 'Fajna kuchnia azjatycka',
@@ -108,6 +114,7 @@ class Restaurant {
         closeTime: DateTime.utc(0, 0, 0, 22, 0),
       ),
       Restaurant(
+        id: '4',
         name: 'Kebab King',
         type: 'Kebab',
         description: 'Najlepszy kebab w mieście',
@@ -121,6 +128,7 @@ class Restaurant {
         closeTime: DateTime.utc(0, 0, 0, 22, 0),
       ),
       Restaurant(
+        id: '5',
         name: 'Sushi Bar',
         type: 'Sushi',
         description: 'Najlepsze sushi w mieście',

@@ -11,6 +11,7 @@ class BookResultView extends StatefulWidget {
   BookResultViewState createState() => BookResultViewState();
 }
 
+// TODO: Rebuild this when API endpoint gets implemented
 class BookResultViewState extends State<BookResultView> {
   late Future<Booking> bookingResponse;
 
@@ -44,7 +45,12 @@ class BookResultViewState extends State<BookResultView> {
       future: bookingResponse,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return Column(children: [
+            const SizedBox(
+              height: 50,
+            ),
+            const CircularProgressIndicator()
+          ]);
         } else if (snapshot.hasError) {
           return Column(
             children: [
@@ -85,15 +91,16 @@ class BookResultViewState extends State<BookResultView> {
                           style: Theme.of(context).textTheme.titleMedium),
                       const SizedBox(height: 10.0),
                       Text(
-                          'Date: ${snapshot.data!.bookingTime.toString().substring(0, 10)}',
+                          'Date: ${snapshot.data!.date.toString().substring(0, 10)}',
                           style: Theme.of(context).textTheme.titleMedium),
                       const SizedBox(height: 10.0),
                       Text(
-                          'Time: ${snapshot.data!.bookingTime.toString().substring(11, 16)}',
+                          'Time: ${snapshot.data!.date.toString().substring(11, 16)}',
                           style: Theme.of(context).textTheme.titleMedium),
                       const SizedBox(height: 10.0),
+                      // TODO: Implement
                       Text(
-                          'Confirmation: ${snapshot.data!.isConfirmed ? 'Confirmed' : 'Pending'}',
+                          'Confirmation: Not implemented',
                           style: Theme.of(context).textTheme.titleMedium),
                     ],
                   ),

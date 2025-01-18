@@ -19,8 +19,9 @@ class BookingCard extends StatelessWidget {
               topLeft: Radius.circular(10.0),
               topRight: Radius.circular(10.0),
             ),
+            // TODO: Implement
             child: Image.network(
-              booking.restaurantImage,
+              "https://placehold.co/300x200/jpg?text=Not%20implemented",
               fit: BoxFit.cover,
               width: double.infinity,
               height: 200,
