@@ -39,7 +39,7 @@ class RestaurantInfo extends StatelessWidget {
                       style: const TextStyle(fontSize: 16, color: Colors.grey),
                     ),
                     Text(
-                      '${restaurant.openTime.hour}:00 - ${restaurant.closeTime.hour}:00',
+                      '${restaurant.openTime.hour}:${restaurant.openTime.minute.toString().padLeft(2, '0')} - ${restaurant.closeTime.hour}:${restaurant.closeTime.minute.toString().padLeft(2, '0')}',
                       style: const TextStyle(
                         fontSize: 16,
                       ),
@@ -52,7 +52,9 @@ class RestaurantInfo extends StatelessWidget {
                     IconButton(
                       icon: const Icon(Icons.favorite),
                       onPressed: () {
-                      throw UnimplementedError("Favorite feature not implemented");
+                        // TODO: Implement favorite feature
+                        throw UnimplementedError(
+                            "Favorite feature not implemented");
                       },
                     ),
                     IconButton(
