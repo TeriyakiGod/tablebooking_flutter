@@ -47,7 +47,7 @@ class Restaurant {
       primaryImageURL: json['primaryImageUrl'] ?? '',
       secondaryImageURL: json['secondaryImageUrl'] ?? '',
       rating: (json['rating'] ?? 0).toDouble(),
-      price: Price.values[json['price']-1 ?? 0],
+      price: Price.values[json['price'] ?? 0],
       openTime: DateTime.parse(json['openTime'] ?? '1970-01-01T00:00:00Z'),
       closeTime: DateTime.parse(json['closeTime'] ?? '1970-01-01T00:00:00Z'),
     );

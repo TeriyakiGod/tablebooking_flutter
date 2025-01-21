@@ -18,14 +18,23 @@ class BookingProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get error => _error;
 
-  // Fetch all bookings
-  Future<void> fetchBookings(BuildContext context) async {
+  // Helper method to handle loading state and notifications
+  void _startLoading() {
     _isLoading = true;
     _error = null;
     notifyListeners();
+  }
+
+  void _stopLoading() {
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  // Fetch all bookings
+  Future<void> fetchBookings(BuildContext context) async {
+    _startLoading();
 
     try {
-      // Get the Bearer token from AuthProvider
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final token = authProvider.token;
 
@@ -49,20 +58,18 @@ class BookingProvider with ChangeNotifier {
       }
     } catch (e) {
       _error = e.toString();
+      rethrow; // Rethrow to let the caller handle the exception
     } finally {
-      _isLoading = false;
-      notifyListeners();
+      _stopLoading();
     }
   }
 
-  Future<Booking> createBooking(BookingRequest bookingRequest,
-      String restaurantId, BuildContext context) async {
-    _isLoading = true;
-    _error = null;
-    notifyListeners();
+  // Create a new booking
+  Future<Booking> createBooking(
+      BookingRequest bookingRequest, String restaurantId, BuildContext context) async {
+    _startLoading();
 
     try {
-      // Get the Bearer token from AuthProvider
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final token = authProvider.token;
 
@@ -70,42 +77,35 @@ class BookingProvider with ChangeNotifier {
         throw Exception('User is not authenticated');
       }
 
-      // Convert BookingRequest to JSON
-      final requestBody = bookingRequest.toJson();
-
       final response = await http.post(
-        Uri.parse('$baseUrl/Booking/CreateBooking/$restaurantId'),
+        Uri.parse('$baseUrl/Booking/CreateBookingAutomatically/$restaurantId'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: json.encode(requestBody), // Pass the BookingRequest as JSON
+        body: json.encode(bookingRequest.toJson()),
       );
 
       if (response.statusCode == 201) {
         final newBooking = Booking.fromJson(json.decode(response.body));
         _bookings.add(newBooking);
-        return newBooking; // Return the newly created booking
+        return newBooking;
       } else {
         throw Exception('Failed to create booking: ${response.statusCode}');
       }
     } catch (e) {
       _error = e.toString();
-      rethrow; // Rethrow the exception to let the caller handle it
+      rethrow;
     } finally {
-      _isLoading = false;
-      notifyListeners();
+      _stopLoading();
     }
   }
 
   // Update an existing booking
   Future<void> updateBooking(Booking booking, BuildContext context) async {
-    _isLoading = true;
-    _error = null;
-    notifyListeners();
+    _startLoading();
 
     try {
-      // Get the Bearer token from AuthProvider
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final token = authProvider.token;
 
@@ -133,20 +133,17 @@ class BookingProvider with ChangeNotifier {
       }
     } catch (e) {
       _error = e.toString();
+      rethrow;
     } finally {
-      _isLoading = false;
-      notifyListeners();
+      _stopLoading();
     }
   }
 
   // Delete a booking
   Future<void> deleteBooking(String bookingId, BuildContext context) async {
-    _isLoading = true;
-    _error = null;
-    notifyListeners();
+    _startLoading();
 
     try {
-      // Get the Bearer token from AuthProvider
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final token = authProvider.token;
 
@@ -169,21 +166,17 @@ class BookingProvider with ChangeNotifier {
       }
     } catch (e) {
       _error = e.toString();
+      rethrow;
     } finally {
-      _isLoading = false;
-      notifyListeners();
+      _stopLoading();
     }
   }
 
   // Fetch a single booking by ID
-  Future<Booking?> fetchBookingById(
-      String bookingId, BuildContext context) async {
-    _isLoading = true;
-    _error = null;
-    notifyListeners();
+  Future<Booking?> fetchBookingById(String bookingId, BuildContext context) async {
+    _startLoading();
 
     try {
-      // Get the Bearer token from AuthProvider
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final token = authProvider.token;
 
@@ -200,17 +193,15 @@ class BookingProvider with ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        final booking = Booking.fromJson(json.decode(response.body));
-        return booking;
+        return Booking.fromJson(json.decode(response.body));
       } else {
         throw Exception('Failed to load booking: ${response.statusCode}');
       }
     } catch (e) {
       _error = e.toString();
-      return null;
+      rethrow;
     } finally {
-      _isLoading = false;
-      notifyListeners();
+      _stopLoading();
     }
   }
 }

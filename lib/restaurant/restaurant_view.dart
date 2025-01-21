@@ -156,7 +156,7 @@ class RestaurantViewState extends State<RestaurantView> {
         const Padding(
           padding: EdgeInsets.only(left: 10.0),
           child: Text(
-            'Comments',
+            'Reviews',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),

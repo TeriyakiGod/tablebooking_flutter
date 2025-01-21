@@ -269,7 +269,11 @@ class BookViewState extends State<BookView> {
                 buildRestaurantInfo(restaurant),
                 const Divider(),
                 if (isBookingCompleted)
-                  Center(child: BookResultView(bookingRequest: booking))
+                  Center(
+                      child: BookResultView(
+                    bookingRequest: booking,
+                    restaurantId: restaurant.id,
+                  ))
                 else
                   buildBookingForm(context, restaurant, firstDate, lastDate),
               ],

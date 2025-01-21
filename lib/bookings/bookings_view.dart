@@ -17,7 +17,10 @@ class BookingsViewState extends State<BookingsView> {
     super.initState();
     // Fetch bookings when the view is initialized
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<BookingProvider>(context, listen: false).fetchBookings(context);
+      if (Provider.of<AuthProvider>(context, listen: false).isLoggedIn) {
+        Provider.of<BookingProvider>(context, listen: false)
+            .fetchBookings(context);
+      }
     });
   }
 
@@ -30,7 +33,8 @@ class BookingsViewState extends State<BookingsView> {
       body: Consumer<AuthProvider>(
         builder: (context, authProvider, child) {
           if (authProvider.isLoading) {
-            return const Center(child: CircularProgressIndicator()); // Show loading spinner
+            return const Center(
+                child: CircularProgressIndicator()); // Show loading spinner
           } else if (!authProvider.isLoggedIn) {
             return const Center(
               child: Text('Please sign in to view your bookings'),
@@ -48,13 +52,18 @@ class BookingsViewState extends State<BookingsView> {
     return Consumer<BookingProvider>(
       builder: (context, bookingProvider, child) {
         if (bookingProvider.isLoading) {
-          return const Center(child: CircularProgressIndicator()); // Show loading spinner
+          return const Center(
+              child: CircularProgressIndicator()); // Show loading spinner
         } else if (bookingProvider.error != null) {
-          return Center(child: Text('Error: ${bookingProvider.error}')); // Show error message
+          return Center(
+              child: Text(
+                  'Error: ${bookingProvider.error}')); // Show error message
         } else if (bookingProvider.bookings.isEmpty) {
-          return const Center(child: Text('No bookings found.')); // Show empty state
+          return const Center(
+              child: Text('No bookings found.')); // Show empty state
         } else {
-          return BookingsList(bookings: bookingProvider.bookings); // Show bookings list
+          return BookingsList(
+              bookings: bookingProvider.bookings); // Show bookings list
         }
       },
     );
