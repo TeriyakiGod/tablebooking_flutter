@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tablebooking_flutter/models/booking_request.dart';
 import 'package:tablebooking_flutter/models/booking.dart';
+import 'package:tablebooking_flutter/providers/booking_provider.dart';
 
 class BookResultView extends StatefulWidget {
   final BookingRequest bookingRequest;
+  final String restaurantId;
 
-  const BookResultView({super.key, required this.bookingRequest});
+  const BookResultView({
+    super.key,
+    required this.bookingRequest,
+    required this.restaurantId,
+  });
 
   @override
   BookResultViewState createState() => BookResultViewState();
@@ -17,63 +24,71 @@ class BookResultViewState extends State<BookResultView> {
   @override
   void initState() {
     super.initState();
-    bookingResponse = sendBookingRequest(widget.bookingRequest);
+    bookingResponse = _sendBookingRequest();
   }
 
-  Future<Booking> sendBookingRequest(BookingRequest bookingRequest) async {
-    // final response = await http.post(
-    //   Uri.parse('http://mybackend.com/bookings'),
-    //   headers: <String, String>{
-    //     'Content-Type': 'application/json; charset=UTF-8',
-    //   },
-    //   body: jsonEncode(bookingRequest.toJson()),
-    // );
-
-    // if (response.statusCode == 200) {
-    //   return BookingResponse.fromJson(jsonDecode(response.body));
-    // } else {
-    //   throw Exception('Failed to book a table.');
-    // }
-    await Future.delayed(const Duration(seconds: 2));
-    return Booking.example()[1];
+  Future<Booking> _sendBookingRequest() async {
+    final bookingProvider = Provider.of<BookingProvider>(context, listen: false);
+    return bookingProvider.createBooking(
+      widget.bookingRequest,
+      widget.restaurantId,
+      context,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final bookingProvider = Provider.of<BookingProvider>(context);
+
     return FutureBuilder<Booking>(
       future: bookingResponse,
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
-        } else if (snapshot.hasError) {
+        if (bookingProvider.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError || bookingProvider.error != null) {
           return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Error: ${snapshot.error}'),
+              Text(
+                'Error: ${snapshot.error ?? bookingProvider.error}',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  // Navigate to BookingView
+                  setState(() {
+                    bookingResponse = _sendBookingRequest();
+                  });
                 },
                 child: const Text('Try Again'),
               ),
+              const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
                   // Navigate to BookingsView
+                  Navigator.popUntil(context, (route) => route.isFirst);
                 },
                 child: const Text('View Bookings'),
               ),
+              const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
                   // Navigate to SearchView
+                  Navigator.popUntil(context, (route) => route.isFirst);
                 },
                 child: const Text('Search'),
               ),
             ],
           );
-        } else {
+        } else if (snapshot.hasData) {
+          final booking = snapshot.data!;
           return Column(
             children: [
-              Text("Booking successful!",
-                  style: Theme.of(context).textTheme.titleLarge),
+              Text(
+                "Booking successful!",
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 20),
               Card(
                 margin: const EdgeInsets.all(10.0),
                 child: Padding(
@@ -81,33 +96,40 @@ class BookResultViewState extends State<BookResultView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Booking ID: ${snapshot.data!.id}',
-                          style: Theme.of(context).textTheme.titleMedium),
+                      Text(
+                        'Booking ID: ${booking.id}',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
                       const SizedBox(height: 10.0),
                       Text(
-                          'Date: ${snapshot.data!.bookingTime.toString().substring(0, 10)}',
-                          style: Theme.of(context).textTheme.titleMedium),
+                        'Date: ${booking.date.toString().substring(0, 10)}',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
                       const SizedBox(height: 10.0),
                       Text(
-                          'Time: ${snapshot.data!.bookingTime.toString().substring(11, 16)}',
-                          style: Theme.of(context).textTheme.titleMedium),
+                        'Time: ${booking.date.toString().substring(11, 16)}',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
                       const SizedBox(height: 10.0),
                       Text(
-                          'Confirmation: ${snapshot.data!.isConfirmed ? 'Confirmed' : 'Pending'}',
-                          style: Theme.of(context).textTheme.titleMedium),
+                        'Confirmation: Not implemented',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
                     ],
                   ),
                 ),
               ),
+              const SizedBox(height: 20),
               FilledButton(
                 onPressed: () {
                   Navigator.popUntil(context, (route) => route.isFirst);
                 },
                 child: const Text('Done'),
               ),
-              const SizedBox(height: 10),
             ],
           );
+        } else {
+          return const Center(child: Text('Something went wrong.'));
         }
       },
     );

@@ -1,38 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:tablebooking_flutter/bookings/bookings_list.dart';
-import 'package:tablebooking_flutter/models/booking.dart';
 import 'package:tablebooking_flutter/providers/auth_provider.dart';
+import 'package:tablebooking_flutter/providers/booking_provider.dart';
 import 'package:provider/provider.dart';
 
 class BookingsView extends StatefulWidget {
   const BookingsView({super.key});
+
   @override
   BookingsViewState createState() => BookingsViewState();
 }
 
 class BookingsViewState extends State<BookingsView> {
-  late Future<List<Booking>> bookings;
-
   @override
   void initState() {
     super.initState();
-    bookings = fetchBookings();
-  }
-
-  Future<List<Booking>> fetchBookings() async {
-    // TODO: Replace with actual API call, integrate with searchOptions
-    // final response = await http.get(
-    //     Uri.parse('http://mybackend.com/restaurants'));
-
-    // if (response.statusCode == 200) {
-    //   // If the server returns a 200 OK response, then parse the JSON.
-    //   return Restaurant.fromJson(jsonDecode(response.body));
-    // } else {
-    //   // If the server did not return a 200 OK response, then throw an exception.
-    //   throw Exception('Failed to load restaurant');
-    // }
-    await Future.delayed(const Duration(seconds: 1));
-    return Booking.example();
+    // Fetch bookings when the view is initialized
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (Provider.of<AuthProvider>(context, listen: false).isLoggedIn) {
+        Provider.of<BookingProvider>(context, listen: false)
+            .fetchBookings(context);
+      }
+    });
   }
 
   @override
@@ -43,38 +32,40 @@ class BookingsViewState extends State<BookingsView> {
       ),
       body: Consumer<AuthProvider>(
         builder: (context, authProvider, child) {
-          return FutureBuilder<bool>(
-            future: authProvider.isAuthenticated,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator(); // Show loading spinner while waiting for auth status
-              } else {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  return snapshot.data!
-                      ? FutureBuilder<List<Booking>>(
-                          future: bookings,
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const Center(
-                                  child: CircularProgressIndicator());
-                            } else if (snapshot.hasError) {
-                              return Center(child: Text('${snapshot.error}'));
-                            } else {
-                              return BookingsList(bookings: snapshot.data!);
-                            }
-                          },
-                        )
-                      : const Center(
-                          child: Text('Please sign in to view your bookings'));
-                }
-              }
-            },
-          );
+          if (authProvider.isLoading) {
+            return const Center(
+                child: CircularProgressIndicator()); // Show loading spinner
+          } else if (!authProvider.isLoggedIn) {
+            return const Center(
+              child: Text('Please sign in to view your bookings'),
+            ); // Show sign-in prompt
+          } else {
+            return _buildBookingsList(); // Show bookings list
+          }
         },
       ),
+    );
+  }
+
+  // Bookings List
+  Widget _buildBookingsList() {
+    return Consumer<BookingProvider>(
+      builder: (context, bookingProvider, child) {
+        if (bookingProvider.isLoading) {
+          return const Center(
+              child: CircularProgressIndicator()); // Show loading spinner
+        } else if (bookingProvider.error != null) {
+          return Center(
+              child: Text(
+                  'Error: ${bookingProvider.error}')); // Show error message
+        } else if (bookingProvider.bookings.isEmpty) {
+          return const Center(
+              child: Text('No bookings found.')); // Show empty state
+        } else {
+          return BookingsList(
+              bookings: bookingProvider.bookings); // Show bookings list
+        }
+      },
     );
   }
 }

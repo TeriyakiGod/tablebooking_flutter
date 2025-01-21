@@ -21,7 +21,7 @@ class AccountInfoView extends StatelessWidget {
           Card(
             margin: const EdgeInsets.only(bottom: 8, left: 10, right: 10),
             child: ListTile(
-              title: Text(account.name, style: const TextStyle(fontSize: 30)),
+              title: Text(account.username, style: const TextStyle(fontSize: 30)),
               subtitle: Text(account.email),
               trailing: const Icon(Icons.account_circle, size: 50.0),
             ),
@@ -91,7 +91,7 @@ class AccountInfoView extends StatelessWidget {
                     leading: const Icon(Icons.exit_to_app),
                     onTap: () {
                       Provider.of<AuthProvider>(context, listen: false)
-                          .logOut();
+                          .logout();
                     }),
               ],
             ),
