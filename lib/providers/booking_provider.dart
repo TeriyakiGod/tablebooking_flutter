@@ -43,7 +43,7 @@ class BookingProvider with ChangeNotifier {
       }
 
       final response = await http.get(
-        Uri.parse('$_baseUrl//GetAllUserBookings'),
+        Uri.parse('$_baseUrl/GetAllUserBookings'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
