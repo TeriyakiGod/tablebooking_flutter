@@ -2,11 +2,11 @@ import 'dart:collection';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+
 // TODO: Create GENERIC API provider class
 class RestaurantProvider with ChangeNotifier {
-  static String get baseUrl => dotenv.env['API_URL'] ?? 'http://localhost:8080';
+  static final String _baseUrl = "https://tablebooking-api.kacperochnik.eu/Restaurant";
   bool _isLoading = false;
   String _error = '';
   List<Restaurant> _restaurants = [];
@@ -23,7 +23,7 @@ class RestaurantProvider with ChangeNotifier {
     notifyListeners();
     try {
       final response =
-          await http.get(Uri.parse("$baseUrl/Restaurant/GetAllRestaurants"));
+          await http.get(Uri.parse("$_baseUrl/GetAllRestaurants"));
       if (response.statusCode == 200) {
         List<dynamic> list = jsonDecode(response.body);
         _restaurants = list.map((e) {return Restaurant.fromJson(e);}).toList();
@@ -43,7 +43,7 @@ class RestaurantProvider with ChangeNotifier {
   Future<void> fetchRestaurantsWithQuery({String? query}) async {
     try {
       final response =
-          await http.get(Uri.parse("$baseUrl/Restaurant/GetAllRestaurants"));
+          await http.get(Uri.parse("$_baseUrl/GetAllRestaurants"));
 
       if (response.statusCode == 200) {
         List<dynamic> list = jsonDecode(response.body);
@@ -68,7 +68,7 @@ class RestaurantProvider with ChangeNotifier {
   // Fetch a single restaurant by ID
   Future<Restaurant> fetchRestaurantById(String restaurantId) async {
     final url =
-        Uri.parse('$baseUrl/Restaurant/GetRestaurantById/$restaurantId');
+        Uri.parse('$_baseUrl/GetRestaurantById/$restaurantId');
 
     try {
       final response = await http.get(url);
@@ -88,7 +88,7 @@ class RestaurantProvider with ChangeNotifier {
   Future<void> addRestaurant(Restaurant restaurant) async {
     try {
       final response = await http.post(
-        Uri.parse("$baseUrl/Restaurant/AddRestaurant"),
+        Uri.parse("$_baseUrl/AddRestaurant"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(restaurant.toJson()),
       );
@@ -109,7 +109,7 @@ class RestaurantProvider with ChangeNotifier {
   Future<void> updateRestaurant(Restaurant restaurant) async {
     try {
       final response = await http.put(
-        Uri.parse("$baseUrl/Restaurant/UpdateRestaurant/${restaurant.id}"),
+        Uri.parse("$_baseUrl/UpdateRestaurant/${restaurant.id}"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(restaurant.toJson()),
       );
@@ -130,7 +130,7 @@ class RestaurantProvider with ChangeNotifier {
   Future<void> deleteRestaurant(String id) async {
     try {
       final response = await http.delete(
-        Uri.parse("$baseUrl/Restaurant/DeleteRestaurant/$id"),
+        Uri.parse("$_baseUrl/DeleteRestaurant/$id"),
       );
 
       if (response.statusCode == 200) {

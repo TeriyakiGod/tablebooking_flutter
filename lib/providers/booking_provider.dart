@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:tablebooking_flutter/models/booking.dart';
@@ -9,7 +8,8 @@ import 'package:provider/provider.dart';
 import '../models/booking_request.dart';
 
 class BookingProvider with ChangeNotifier {
-  static String get baseUrl => dotenv.env['API_URL'] ?? 'http://localhost:8080';
+  static final String _baseUrl =
+      'https://tablebooking-api.kacperochnik.eu/Booking';
   List<Booking> _bookings = [];
   bool _isLoading = false;
   String? _error;
@@ -43,7 +43,7 @@ class BookingProvider with ChangeNotifier {
       }
 
       final response = await http.get(
-        Uri.parse('$baseUrl/Booking/GetAllUserBookings'),
+        Uri.parse('$_baseUrl//GetAllUserBookings'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -65,8 +65,8 @@ class BookingProvider with ChangeNotifier {
   }
 
   // Create a new booking
-  Future<Booking> createBooking(
-      BookingRequest bookingRequest, String restaurantId, BuildContext context) async {
+  Future<Booking> createBooking(BookingRequest bookingRequest,
+      String restaurantId, BuildContext context) async {
     _startLoading();
 
     try {
@@ -78,7 +78,7 @@ class BookingProvider with ChangeNotifier {
       }
 
       final response = await http.post(
-        Uri.parse('$baseUrl/Booking/CreateBookingAutomatically/$restaurantId'),
+        Uri.parse('$_baseUrl/CreateBookingAutomatically/$restaurantId'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -114,7 +114,7 @@ class BookingProvider with ChangeNotifier {
       }
 
       final response = await http.put(
-        Uri.parse('$baseUrl/Booking/UpdateBooking/${booking.id}'),
+        Uri.parse('$_baseUrl/UpdateBooking/${booking.id}'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -152,7 +152,7 @@ class BookingProvider with ChangeNotifier {
       }
 
       final response = await http.delete(
-        Uri.parse('$baseUrl/Booking/DeleteBooking/$bookingId'),
+        Uri.parse('$_baseUrl/DeleteBooking/$bookingId'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -173,7 +173,8 @@ class BookingProvider with ChangeNotifier {
   }
 
   // Fetch a single booking by ID
-  Future<Booking?> fetchBookingById(String bookingId, BuildContext context) async {
+  Future<Booking?> fetchBookingById(
+      String bookingId, BuildContext context) async {
     _startLoading();
 
     try {
@@ -185,7 +186,7 @@ class BookingProvider with ChangeNotifier {
       }
 
       final response = await http.get(
-        Uri.parse('$baseUrl/Booking/GetBookingById/$bookingId'),
+        Uri.parse('$_baseUrl/GetBookingById/$bookingId'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',

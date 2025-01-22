@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -11,7 +10,7 @@ class AuthProvider with ChangeNotifier {
   Account? _account;
 
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
-
+  static final String _baseUrl = 'https://tablebooking-api.kacperochnik.eu/User';
   String? get token => _token;
   bool get isLoading => _isLoading;
   bool get isAuthenticated => _token != null;
@@ -34,7 +33,7 @@ class AuthProvider with ChangeNotifier {
     _startLoading();
 
     try {
-      final url = Uri.parse('${dotenv.env['API_URL']!}/User/login');
+      final url = Uri.parse('$_baseUrl/login');
 
       final response = await http.post(
         url,
@@ -69,7 +68,7 @@ class AuthProvider with ChangeNotifier {
     _startLoading();
 
     try {
-      final url = Uri.parse('${dotenv.env['API_URL']!}/User');
+      final url = Uri.parse(_baseUrl);
       final response = await http.get(
         url,
         headers: {
@@ -135,7 +134,7 @@ class AuthProvider with ChangeNotifier {
     _startLoading();
 
     try {
-      final url = Uri.parse('${dotenv.env['API_URL']!}/User/register');
+      final url = Uri.parse('$_baseUrl/User/register');
       final response = await http.post(
         url,
         body: json.encode({

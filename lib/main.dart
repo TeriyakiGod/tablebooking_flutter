@@ -4,11 +4,9 @@ import 'package:tablebooking_flutter/providers/booking_provider.dart';
 import 'package:tablebooking_flutter/providers/restaurant_provider.dart';
 import 'router.dart';
 import 'providers/auth_provider.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load();
   final authProvider = AuthProvider();
   await authProvider.autoLogin();
   final restaurantProvider = RestaurantProvider();
