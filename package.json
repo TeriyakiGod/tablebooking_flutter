@@ -6,7 +6,7 @@
     "scripts": {
         "start": "flutter run",
         "build": "flutter build",
-        "test": "flutter test",
+        "test": "flutter test"
     },
     "author": "",
     "license": "MIT",
