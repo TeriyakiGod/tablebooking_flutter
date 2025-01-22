@@ -27,12 +27,12 @@ class BookView extends StatefulWidget {
 
 class BookViewState extends State<BookView> {
   late Future<Restaurant> restaurant;
-  bool isDatePicked = false;
+  bool isDatePicked = true;
   bool isTimePicked = false;
   bool isBookingCompleted = false;
 
   BookingRequest booking = BookingRequest(
-    dateTime: null,
+    dateTime: DateTime.now(), // Default to today
     guestCount: 2,
   );
 
@@ -67,6 +67,11 @@ class BookViewState extends State<BookView> {
 
   Widget buildDateSelector(
       BuildContext context, DateTime firstDate, DateTime lastDate) {
+    final bool isTodaySelected =
+        booking.dateTime?.toLocal().day == DateTime.now().day &&
+            booking.dateTime?.toLocal().month == DateTime.now().month &&
+            booking.dateTime?.toLocal().year == DateTime.now().year;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.0),
       child: Row(
@@ -74,7 +79,9 @@ class BookViewState extends State<BookView> {
         children: [
           Expanded(
             child: Text(
-              DateFormat('dd/MM/yyyy').format(booking.dateTime!),
+              isTodaySelected
+                  ? 'Today'
+                  : DateFormat('dd/MM/yyyy').format(booking.dateTime!),
               style: const TextStyle(fontSize: 16),
             ),
           ),
@@ -118,12 +125,7 @@ class BookViewState extends State<BookView> {
     );
 
     // Define disabled times
-    final List<DateTime> disabledTimes = [
-      startTime
-          .add(const Duration(minutes: 30)), // Example: Disable the second slot
-      startTime
-          .add(const Duration(minutes: 90)), // Example: Disable the fourth slot
-    ];
+    final List<DateTime> disabledTimes = [];
 
     List<DateTime> generateTimeSlots() {
       List<DateTime> slots = [];
@@ -253,9 +255,7 @@ class BookViewState extends State<BookView> {
         if (snapshot.hasData) {
           final restaurant = snapshot.data!;
           final now = DateTime.now();
-          final firstDate = now.hour >= restaurant.closeTime.hour - 2
-              ? now.add(const Duration(days: 1))
-              : now;
+          final firstDate = now;
           final lastDate = firstDate.add(const Duration(days: 90));
           booking.dateTime ??= firstDate;
 

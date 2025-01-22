@@ -29,17 +29,6 @@ class AccountInfoView extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                ListTile(
-                    title: const Text('Admin'),
-                    leading: const Icon(Icons.admin_panel_settings),
-                    onTap: () {
-                      // Navigate to PreferencesView
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const AdminView()),
-                      );
-                    }),
                 const ListTile(
                   title: Text('Favorites'),
                   leading: Icon(Icons.favorite),
