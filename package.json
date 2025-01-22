@@ -1,0 +1,15 @@
+{
+    "name": "tablebooking_flutter",
+    "version": "1.0.0",
+    "description": "A Flutter project for table booking",
+    "main": "index.js",
+    "scripts": {
+        "start": "flutter run",
+        "build": "flutter build",
+        "test": "flutter test",
+    },
+    "author": "",
+    "license": "MIT",
+    "dependencies": {},
+    "devDependencies": {}
+}
