@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tablebooking_flutter/account/admin/admin_view.dart';
 import 'package:tablebooking_flutter/account/help_view.dart';
 import 'about_view.dart';
 import 'preferences_view.dart';
