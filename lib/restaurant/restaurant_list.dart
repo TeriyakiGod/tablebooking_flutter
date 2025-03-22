@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tablebooking_flutter/providers/restaurant_provider.dart';
-import 'package:tablebooking_flutter/search/list/restaurant_card.dart';
+import 'package:tablebooking_flutter/restaurant/restaurant_card.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
 import 'package:tablebooking_flutter/restaurant/restaurant_view.dart';
 
