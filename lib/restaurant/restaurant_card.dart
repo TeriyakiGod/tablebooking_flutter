@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
-import 'package:tablebooking_flutter/search/list/restaurant_info.dart';
+import 'package:tablebooking_flutter/restaurant/restaurant_info.dart';
 
 class RestaurantCard extends StatelessWidget {
   final Restaurant restaurant;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tablebooking_flutter/models/booking.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
-
+import 'package:tablebooking_flutter/bookings/manage/manage_booking_view.dart';
 import '../restaurant/restaurant_view.dart';
 
 class BookingInfo extends StatelessWidget {
@@ -71,7 +71,14 @@ class BookingInfo extends StatelessWidget {
                 label: const Text("Manage"),
                 avatar: const Icon(Icons.edit),
                 onPressed: () {
-                  // TODO: Implement manage booking functionality
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ManageBookingView(
+                        booking: booking,
+                      ),
+                    ),
+                  );
                 },
               ),
             ],

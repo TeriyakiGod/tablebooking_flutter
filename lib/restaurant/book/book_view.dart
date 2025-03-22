@@ -4,7 +4,7 @@ import 'package:tablebooking_flutter/restaurant/book/book_help.dart';
 import 'package:tablebooking_flutter/models/booking_request.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
 import 'package:tablebooking_flutter/restaurant/book/number_picker.dart';
-import 'package:tablebooking_flutter/search/list/restaurant_info.dart';
+import 'package:tablebooking_flutter/restaurant/restaurant_info.dart';
 import 'package:tablebooking_flutter/restaurant/book/book_result_view.dart';
 import 'package:intl/intl.dart';
 
