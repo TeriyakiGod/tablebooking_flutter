@@ -4,12 +4,11 @@ import 'dart:convert';
 import 'package:tablebooking_flutter/models/booking.dart';
 import 'package:tablebooking_flutter/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/booking_request.dart';
 
 class BookingProvider with ChangeNotifier {
-  static final String _baseUrl =
-      'https://tablebooking-api.kacperochnik.eu/Booking';
+  static final String _baseUrl = dotenv.get('API_URL', fallback: 'https://localhost:7012/');
   List<Booking> _bookings = [];
   bool _isLoading = false;
   String? _error;

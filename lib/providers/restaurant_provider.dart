@@ -3,10 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:tablebooking_flutter/models/restaurant.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // TODO: Create GENERIC API provider class
 class RestaurantProvider with ChangeNotifier {
-  static final String _baseUrl = "https://tablebooking-api.kacperochnik.eu/Restaurant";
+  static final String _baseUrl = dotenv.get('API_URL', fallback: 'https://localhost:7012/');
   bool _isLoading = false;
   String _error = '';
   List<Restaurant> _restaurants = [];

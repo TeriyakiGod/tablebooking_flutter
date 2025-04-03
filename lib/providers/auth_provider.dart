@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:tablebooking_flutter/models/account.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AuthProvider with ChangeNotifier {
   String? _token;
@@ -10,7 +11,7 @@ class AuthProvider with ChangeNotifier {
   Account? _account;
 
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
-  static final String _baseUrl = 'https://tablebooking-api.kacperochnik.eu/User';
+  static final String _baseUrl = dotenv.get('API_URL', fallback: 'https://localhost:7012/');
   String? get token => _token;
   bool get isLoading => _isLoading;
   bool get isAuthenticated => _token != null;
